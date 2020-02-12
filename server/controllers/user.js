@@ -1,7 +1,13 @@
-const User = require('../models').User;
 const UserService = require("./../services/user");
+const UserValidation = require("./../validation").User;
 
 const create = async (req,res) => {
+    const { err } = UserValidation(req.body, false);
+    if(err) {
+        return res
+        .status(500)
+        .json({ success: false, err: err.details[0].message });
+    }
     const { success, data } =  await UserService.createUser(req.body);
     return res.json({success, data});
 }

@@ -1,25 +1,26 @@
-const UserModel = require('./../models/user');
+const UserModel = require('./../models').User;
 
 const createUser = async (user) => {
     try {
         const newUser = await UserModel.create({
             ...user
         });
-        return {success: true, user: newUser};
+        return {success: true, data: newUser};
     }   
     catch (err) {
-        return {success: false, err: err};
+        return {success: false, data: err};
     }
 }
 
 const listUsers = async () => {
-    
+    console.log("User Service");   
     try{
-        const users = await UserModel.findAll()
+        const users = await UserModel.findAll();
+        console.log("Finding All");
         return { success:true, data: users };
     }
     catch(err) {
-        return { success: false, err: err };
+        return { success: false, data: err };
     }
 
 }
@@ -37,7 +38,8 @@ const getUserById = async (userId) => {
 
     }
     catch(err) {
-        return { success: false, err: err};
+        console.log("Error",err);
+        return { success: false, data: err};
     }
 }
 
@@ -53,7 +55,7 @@ const updateUser = async (userId) => {
         }
     }
     catch (err) {
-        return { success: false, err: err};
+        return { success: false, data: err};
     }
 }
 
@@ -67,7 +69,7 @@ const destroyUser = async (userId) => {
       }
     } 
     catch (err) {
-      return { success: false, err: err };
+      return { success: false, data: err };
     }
 }
 
