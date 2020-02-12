@@ -43,12 +43,19 @@ const getUserById = async (userId) => {
     }
 }
 
-const updateUser = async (userId) => {
+const updateUser = async (userId,userUpdate) => {
     try {
-        const user = await UserModel.findByPk(id)
+        const user = await UserModel.findByPk(userId);
         if(user) {
-           const updatedUser = await user.update({ id: req.body.id });
-           return { success: true, data: updatedUser };
+            try {
+                console.log(userUpdate);
+                const updatedUser = await user.update( userUpdate,{fields: Object.keys(userUpdate) });
+                return { success: true, data: updatedUser };
+            }
+            catch (err) {
+                return { success: false, data: err};   
+            }
+          
         }
         else {
             return { success: true, data: "User Not Found"};
@@ -65,7 +72,10 @@ const destroyUser = async (userId) => {
       const user = await UserModel.findByPk(userId);
       if(user) {
         await user.destroy();
-        return {success:true, data: null};
+        return {success :true, data: "Resource Deleted"};
+      }
+      else {
+          return {success: false, data: "User Not Found"};
       }
     } 
     catch (err) {
