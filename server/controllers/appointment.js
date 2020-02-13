@@ -1,15 +1,15 @@
-const UserService = require("./../services").UserService;
-const UserValidation = require("./../validation").UserValidation;
+const AppointmentService = require("./../services").AppointmentService;
+const AppointmentValidation = require("./../validation").AppointmentValidation;
 
 const create = async (req,res) => {
-    const { err } = UserValidation(req.body, false);
+    const { err } = AppointmentValidation(req.body, false);
     if(err) {
         return res  
         .status(500)
         .json({ success: false, err: err.details[0].message });
     }
     try {
-        const { success, data } =  await UserService.createUser(req.body);
+        const { success, data } =  await AppointmentService.createAppointment(req.body);
         return res.json({success, data});
     }
     catch(err) {
@@ -17,9 +17,9 @@ const create = async (req,res) => {
     } 
 }
 
-const list = async(req,res) => {
+const list = async (req,res) => {
     try {
-        const { success, data } = await UserService.listUsers();
+        const { success, data } = await AppointmentService.listAppointments();
         return res.json({ success,data });
     }
     catch(err) {
@@ -27,11 +27,10 @@ const list = async(req,res) => {
     } 
 } 
 
-
 const retrieve = async (req,res) => {
-    const userId = req.params.id;
+    const appointmentId = req.params.id;
     try {
-        const {success, data} = await UserService.getUserById(userId);
+        const {success, data} = await AppointmentService.getAppointmentById(appointmentId);
         return res.json({ success, data} );    
     }
     catch(err) {
@@ -40,16 +39,16 @@ const retrieve = async (req,res) => {
 }
 
 const update = async (req, res) => {
-    const { err } = UserValidation(req.body, true);
+    const { err } = AppointmentValidation(req.body, true);
     if(err) {
         return res
         .status(500)
         .json({ success: false, err: err.details[0].message });
     }
-    const user = req.body;
-    const userId = req.params.id;
+    const appointment = req.body;
+    const appointmentId = req.params.id;
     try {
-        const { success, data } = await UserService.updateUser(userId,user);
+        const { success, data } = await AppointmentService.updateAppointment(appointmentId,appointment);
         return res.json( {success, data } );
     }
     catch(err) {
@@ -58,9 +57,9 @@ const update = async (req, res) => {
 }
 
 const destroy = async (req, res) => {
-    const userId = req.params.id;
+    const appointmentId = req.params.id;
     try {
-        const {success, data } = await UserService.destroyUser(userId);
+        const {success, data } = await AppointmentService.destroyAppointment(appointmentId);
         return res.json({success,data});     
     }
     catch(err) {

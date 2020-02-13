@@ -1,15 +1,15 @@
-const UserService = require("./../services").UserService;
-const UserValidation = require("./../validation").UserValidation;
+const DoctorScheduleService = require("./../services").DoctorSchedule;
+const DoctorScheduleValidation = require("./../validation").DoctorSchedule;
 
 const create = async (req,res) => {
-    const { err } = UserValidation(req.body, false);
+    const { err } = DoctorScheduleValidation(req.body, false);
     if(err) {
         return res  
         .status(500)
         .json({ success: false, err: err.details[0].message });
     }
     try {
-        const { success, data } =  await UserService.createUser(req.body);
+        const { success, data } =  await DoctorScheduleService.createSchedule(req.body);
         return res.json({success, data});
     }
     catch(err) {
@@ -19,7 +19,7 @@ const create = async (req,res) => {
 
 const list = async(req,res) => {
     try {
-        const { success, data } = await UserService.listUsers();
+        const { success, data } = await DoctorScheduleService.listSchedules();
         return res.json({ success,data });
     }
     catch(err) {
@@ -27,11 +27,10 @@ const list = async(req,res) => {
     } 
 } 
 
-
 const retrieve = async (req,res) => {
-    const userId = req.params.id;
+    const doctorScheduleId = req.params.id;
     try {
-        const {success, data} = await UserService.getUserById(userId);
+        const {success, data} = await DoctorScheduleService.getScheduleById(doctorScheduleId);
         return res.json({ success, data} );    
     }
     catch(err) {
@@ -40,16 +39,16 @@ const retrieve = async (req,res) => {
 }
 
 const update = async (req, res) => {
-    const { err } = UserValidation(req.body, true);
+    const { err } = DoctorScheduleValidation(req.body, true);
     if(err) {
         return res
         .status(500)
         .json({ success: false, err: err.details[0].message });
     }
-    const user = req.body;
-    const userId = req.params.id;
+    const doctorSchedule = req.body;
+    const doctorScheduleId = req.params.id;
     try {
-        const { success, data } = await UserService.updateUser(userId,user);
+        const { success, data } = await DoctorScheduleService.updateSchedule(doctorScheduleId,doctorSchedule);
         return res.json( {success, data } );
     }
     catch(err) {
@@ -58,9 +57,9 @@ const update = async (req, res) => {
 }
 
 const destroy = async (req, res) => {
-    const userId = req.params.id;
+    const doctorScheduleId = req.params.id;
     try {
-        const {success, data } = await UserService.destroyUser(userId);
+        const {success, data } = await DoctorScheduleService.destroySchedule(doctorScheduleId);
         return res.json({success,data});     
     }
     catch(err) {
@@ -69,9 +68,9 @@ const destroy = async (req, res) => {
 }
 
 module.exports = {
-create,
-retrieve,
-list,
-destroy,
-update
+    create,
+    retrieve,
+    list,
+    destroy,
+    update
 }

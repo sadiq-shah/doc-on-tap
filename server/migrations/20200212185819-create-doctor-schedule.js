@@ -1,32 +1,24 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Patients', {
+    return queryInterface.createTable('DoctorSchedules', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      userId: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-        allowNull: false
+      doctorId: {
+        type: Sequelize.INTEGER
       },
-      phoneNo: {
+      day: {
         type: Sequelize.STRING
       },
-      isDiabetic: {
-        type: Sequelize.BOOLEAN
+      from: {
+        type: Sequelize.DATE
       },
-      isSmoker: {
-        type: Sequelize.BOOLEAN
-      },
-      hasHypertension: {
-        type: Sequelize.BOOLEAN
-      },
-      isObese: {
-        type: Sequelize.BOOLEAN
+      to: {
+        type: Sequelize.DATE
       },
       createdAt: {
         allowNull: false,
@@ -39,6 +31,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Patients');
+    return queryInterface.dropTable('DoctorSchedules');
   }
 };
