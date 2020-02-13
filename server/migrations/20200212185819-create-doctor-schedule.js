@@ -9,7 +9,13 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       doctorId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        onDelete: "CASCADE",
+          allowNull: false,
+          references: {
+            model: "doctors",
+            key: "id",
+          }
       },
       day: {
         type: Sequelize.STRING
