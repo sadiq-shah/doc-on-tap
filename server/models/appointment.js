@@ -24,7 +24,17 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {});
   Appointment.associate = function(models) {
-    // associations can be defined here
+  
+    Appointment.belongsTo(models.Patient, {
+      foreignKey: 'patientId',
+      onDelete: 'CASCADE',
+    });
+
+    Appointment.belongsTo(models.Doctor, {
+      foreignKey: 'doctorId',
+      onDelete: 'CASCADE',
+    });
+  
   };
   return Appointment;
 };

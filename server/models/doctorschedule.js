@@ -2,7 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
   const DoctorSchedule = sequelize.define('DoctorSchedule', {
     doctorId: {
-      type: DataTypes.NUMBER
+      type: DataTypes.INTEGER
     },
     day: {
       type: DataTypes.STRING
@@ -15,7 +15,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {});
   DoctorSchedule.associate = function(models) {
-    // associations can be defined here
+    
+    Doctor.belongsTo(models.Doctor, {
+      foreignKey: 'doctorId',
+      onDelete: 'CASCADE',
+    });
+
   };
   return DoctorSchedule;
 };

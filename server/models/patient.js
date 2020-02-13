@@ -30,7 +30,22 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {});
   Patient.associate = function(models) {
-    // associations can be defined here
+    
+    Patient.hasOne(models.User, {
+      foriegnKey: 'userId',
+      as: 'User'
+    });
+
+    Patient.hasMany(models.Appointment, {
+      foriegnKey: 'patientId',
+      as: 'appointments'
+    });
+
+    Patient.hasMany(models.Review, {
+      foriegnKey: 'patientId',
+      as: 'reviews'
+    });
+
   };
   return Patient;
 };
