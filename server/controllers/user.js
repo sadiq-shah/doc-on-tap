@@ -69,9 +69,9 @@ const destroy = async (req, res) => {
 }
 
 module.exports = {
-create,
-retrieve,
-list,
-destroy,
-update
+    create,
+    retrieve,
+    list,
+    destroy,
+    update
 }

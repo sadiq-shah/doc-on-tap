@@ -9,13 +9,15 @@ const create = async (req,res) => {
         .json({ success: false, err: err.details[0].message });
     }
     try {
-        console.log("Validating Patient");
         const {statusCode,  success, data } =  await PatientService.createPatient(req.body);
+        console.log("Trying to create");
         return res.status(statusCode).json({success, data});
     }
-    catch(err) {
+    catch(err) {;
+        console.log("Failing ");
         return res.status(500).json({success: false, err: err });
-    } 
+    }
+
 }
 
 const list = async(req,res) => {
@@ -25,7 +27,7 @@ const list = async(req,res) => {
     }
     catch(err) {
         return res.status(500).json({success: false, err:err });
-    } a
+    } 
 } 
 
 const retrieve = async (req,res) => {
@@ -61,6 +63,7 @@ const destroy = async (req, res) => {
     const patientId = req.params.id;
     try {
         const {statusCode, success, data } = await PatientService.destroyPatient(patientId);
+        console.log("Destroyed");
         return res.status(statusCode).json({success,data});     
     }
     catch(err) {

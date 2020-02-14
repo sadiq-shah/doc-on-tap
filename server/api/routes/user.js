@@ -101,12 +101,11 @@ Router.post("/", UserController.create);
 *         description: Required Parameters Needed
 */
 Router.get("/", UserController.list);
+
 Router.get("/:id", UserController.retrieve);
 
 Router.put("/:id", UserController.update);
 Router.delete("/:id", UserController.destroy);
 Router.get("/", UserController.list);
-
-
-
+Router.get("/:id/user-data")
 module.exports = Router

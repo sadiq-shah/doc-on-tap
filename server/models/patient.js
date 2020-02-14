@@ -31,9 +31,10 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Patient.associate = function(models) {
     
-    Patient.hasOne(models.User, {
+    Patient.belongsTo(models.User, {
       foriegnKey: 'userId',
-      as: 'User'
+      as: 'user',
+      // onDelete: 'CASCADE'
     });
 
     Patient.hasMany(models.Appointment, {
@@ -46,6 +47,12 @@ module.exports = (sequelize, DataTypes) => {
       as: 'reviews'
     });
 
+    Patient.hasMany(models.Assessment, {
+      foreignKey: 'assessmentId',
+      as: 'assessments',
+    });
+
   };
   return Patient;
 };
+

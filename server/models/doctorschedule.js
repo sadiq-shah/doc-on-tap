@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   DoctorSchedule.associate = function(models) {
     
-    Doctor.belongsTo(models.Doctor, {
+    DoctorSchedule.belongsTo(models.Doctor, {
       foreignKey: 'doctorId',
       onDelete: 'CASCADE',
     });

@@ -13,32 +13,28 @@ const createUser = async (user) => {
 }
 
 const listUsers = async () => {
-    console.log("User Service");   
     try{
         const users = await UserModel.findAll();
-        console.log("Finding All");
         return { success:true, data: users };
     }
     catch(err) {
+        console.log(err);
         return { success: false, data: err };
     }
-
 }
-
 
 const getUserById = async (userId) => {
     try {
-        const user = await UserModel.findByPk(userId);
-        if(user) {
-            return {success:true, data: user};
+        const data = await UserModel.findByPk(userId);
+        if(data) {
+            return {success:true, data: data};
         }
         else {
+            
             return {success:true, message: "Not FOund"}
         }
-
     }
     catch(err) {
-        console.log("Error",err);
         return { success: false, data: err};
     }
 }
@@ -65,7 +61,6 @@ const updateUser = async (userId,userUpdate) => {
         return { success: false, data: err};
     }
 }
-
 
 const destroyUser = async (userId) => {
     try {

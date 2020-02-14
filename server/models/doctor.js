@@ -27,9 +27,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {});
   Doctor.associate = function(models) {
-      Doctor.hasOne(models.User, {
+      
+      Doctor.belongsTo(models.User, {
         foriegnKey: 'userId',
-        as: 'User'
+        as: 'user',
+        // onDelete: 'CASCADE'
       });
 
       Doctor.hasMany(models.Appointment, {

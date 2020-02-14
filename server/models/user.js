@@ -6,6 +6,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       len: [5,1024]
     },
+    userType: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -30,7 +34,8 @@ module.exports = (sequelize, DataTypes) => {
     
     User.hasOne(models.Patient, {
       foreignKey: "userId",
-      as: "Patient"
+      as: "patient",
+      onDelete: "CASCADE"
     });
 
     User.hasOne(models.Doctor, {

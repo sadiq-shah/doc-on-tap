@@ -13,7 +13,7 @@ module.exports = {
         onDelete: "CASCADE",
           allowNull: false,
           references: {
-            model: "patients",
+            model: "Patients",
             key: "id",
           }
       },
@@ -22,7 +22,7 @@ module.exports = {
         onDelete: "CASCADE",
           allowNull: false,
           references: {
-            model: "doctors",
+            model: "Doctors",
             key: "id",
           }
       },
@@ -33,14 +33,22 @@ module.exports = {
         type: Sequelize.STRING
       },
       assessmentId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        onDelete: "CASCADE",
+          allowNull: false,
+          references: {
+            model: "Assessments",
+            key: "id",
+          }
       },
       createdAt: {
         allowNull: false,
+        defaultValue: new Date(),
         type: Sequelize.DATE
       },
       updatedAt: {
         allowNull: false,
+        defaultValue: new Date(),
         type: Sequelize.DATE
       }
     });

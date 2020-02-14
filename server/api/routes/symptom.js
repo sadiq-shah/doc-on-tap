@@ -1,5 +1,5 @@
 const Router = require("express").Router();
-const SymptomController = require('./../../controllers').SymptomController;
+const SymptomController = require('../../controllers').SymptomController;
 
 Router.get("/", SymptomController.list);
 Router.get("/:id", SymptomController.retrieve);

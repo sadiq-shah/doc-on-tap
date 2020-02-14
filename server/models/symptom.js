@@ -11,7 +11,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {});
   Symptom.associate = function(models) {
-    // associations can be defined here
+    
+    Symptom.belongsTo(models.Assessment, {
+      foreignKey: 'assesmentId',
+      onDelete: 'CASCADE',
+    });
+
   };
   return Symptom;
 };

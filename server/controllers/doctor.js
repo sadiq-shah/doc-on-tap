@@ -9,8 +9,8 @@ const create = async (req,res) => {
         .json({ success: false, err: err.details[0].message });
     }
     try {
-        const { success, data } =  await DoctorService.createDoctor(req.body);
-        return res.json({success, data});
+        const { statusCode, success, data } =  await DoctorService.createDoctor(req.body);
+        return res.json({ statusCode, success, data });
     }
     catch(err) {
         return res.status(500).json({success: false, err: err });
@@ -19,8 +19,8 @@ const create = async (req,res) => {
 
 const list = async(req,res) => {
     try {
-        const { success, data } = await DoctorService.listDoctors();
-        return res.json({ success,data });
+        const { statusCode, success, data } = await DoctorService.listDoctors();
+        return res.status(statusCode).json({ success,data });
     }
     catch(err) {
         return res.status(500).json({success: false, err:err });
@@ -30,8 +30,8 @@ const list = async(req,res) => {
 const retrieve = async (req,res) => {
     const doctorId = req.params.id;
     try {
-        const {success, data} = await DoctorService.getDoctorById(doctorId);
-        return res.json({ success, data} );    
+        const { statusCode, success, data} = await DoctorService.getDoctorById(doctorId);
+        return res.status(statusCode).json({ success, data} );    
     }
     catch(err) {
         return res.status(500).json({success: false, err:err });
@@ -48,8 +48,8 @@ const update = async (req, res) => {
     const doctor = req.body;
     const doctorId = req.params.id;
     try {
-        const { success, data } = await DoctorService.updateDoctor(doctorId,doctor);
-        return res.json( {success, data } );
+        const { statusCode, success, data } = await DoctorService.updateDoctor(doctorId,doctor);
+        return res.status(statusCode).json( {success, data } );
     }
     catch(err) {
         return res.status(500).json({success: false, err:err });
@@ -59,8 +59,8 @@ const update = async (req, res) => {
 const destroy = async (req, res) => {
     const doctorId = req.params.id;
     try {
-        const {success, data } = await DoctorService.destroyDoctor(doctorId);
-        return res.json({success,data});     
+        const {statusCode, success, data } = await DoctorService.destroyDoctor(doctorId);
+        return res.status(statusCode).json({ success,data });     
     }
     catch(err) {
         return res.status(500).json({success: false, err:err });

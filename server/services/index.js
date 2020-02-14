@@ -17,5 +17,6 @@ module.exports = {
     DoctorScheduleService,
     ReviewService,
     DiseaseService,
-    SymptomService
+    SymptomService,
+    AssessmentService
 }

@@ -7,4 +7,5 @@ module.exports = (app) => {
     app.use("/api/v1/doctor-schedule", require('./doctorSchedule'));
     app.use("/api/v1/disease", require('./disease'));
     app.use("/api/v1/symptom", require('./symptom'));
+    app.use("/api/v1/assessment", require('./assessment'));
 }

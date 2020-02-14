@@ -22,7 +22,6 @@ const listDiseases = async () => {
     }
 }
 
-
 const getDiseaseById = async (diseaseId) => {
     try {
         const disease = await DiseaseModel.findByPk(diseaseId);
@@ -49,7 +48,6 @@ const updateDisease = async (diseaseId,diseaseUpdate) => {
             catch (err) {
                 return { success: false, data: err};   
             }
-          
         }
         else {
             return { success: true, data: "Disease Not Found"};
@@ -59,7 +57,6 @@ const updateDisease = async (diseaseId,diseaseUpdate) => {
         return { success: false, data: err};
     }
 }
-
 
 const destroyDisease = async (diseaseId) => {
     try {

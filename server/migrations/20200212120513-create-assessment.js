@@ -1,39 +1,42 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Patients', {
+    return queryInterface.createTable('Assessments', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      userId: {
+      patientId: {
         type: Sequelize.INTEGER,
         onDelete: "CASCADE",
           allowNull: false,
           references: {
-            model: "users",
+            model: "Patients",
             key: "id",
           }
       },
-      location: {
+      time: {
+        type: Sequelize.DATE
+      },
+      disease1: {
         type: Sequelize.STRING
       },
-      phoneNo: {
+      disease1Prob: {
+        type: Sequelize.FLOAT
+      },
+      disease2Name: {
         type: Sequelize.STRING
       },
-      isDiabetic: {
-        type: Sequelize.BOOLEAN
+      disease2Prob: {
+        type: Sequelize.FLOAT
       },
-      isSmoker: {
-        type: Sequelize.BOOLEAN
+      disease3Name: {
+        type: Sequelize.STRING
       },
-      isHypertension: {
-        type: Sequelize.BOOLEAN
-      },
-      isObese: {
-        type: Sequelize.BOOLEAN
+      disease3Prob: {
+        type: Sequelize.FLOAT
       },
       createdAt: {
         allowNull: false,
@@ -46,6 +49,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Patients');
+    return queryInterface.dropTable('Assessments');
   }
 };
