@@ -15,18 +15,47 @@ const checkIfUserIsPatient = async (req,res,next) => {
     catch (ex) {
         res.status(500).json({success: false, message: ex});
     }
-} 
+}
+
+const checkPatient = async (userId) => {
+    try {
+        const {_, s, data} = await PatientService.getPatientById(userId);
+        if(data && data.userId) {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+    catch (ex) {
+        return false;
+    }
+}
+
+const ifPatientDoesExist = async (req,res,next) => {
+    const userId = req.body.patientId;
+    try {
+        const patientExist = await checkPatient(userId)
+        if( patientExist ) {
+            next();
+        }
+        else {
+            res.status(404).json({success: false, message: "Patient with the given Id Does Not Exist."});
+        }
+    }
+    catch (ex) {
+        res.status(500).json({success: false, message: ex});
+    }
+}
+
 const ifPatientExist = async (req,res,next) => {
     const userId = req.body.userId;
     try {
         const {_, s, data} = await PatientService.getPatientByUserId(userId);
-        console.log(data);
         if(data && data.userId) {
-            console.log("Here");
-            res.status(500).json({success: false, message: "Patient with the given User Id Already Exists."});
+            res.status(404).json({success: false, message: "Patient with the given User Id Already Exists."});
         }
         else {
-            console.log("Why not");
             next();
         }
     }
@@ -37,5 +66,6 @@ const ifPatientExist = async (req,res,next) => {
 
 module.exports = {
     ifPatientExist,
-    checkIfUserIsPatient
+    checkIfUserIsPatient,
+    ifPatientDoesExist
 }

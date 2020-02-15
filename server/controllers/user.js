@@ -9,8 +9,8 @@ const create = async (req,res) => {
         .json({ success: false, err: err.details[0].message });
     }
     try {
-        const { success, data } =  await UserService.createUser(req.body);
-        return res.json({success, data});
+        const { statusCode, success, data } =  await UserService.createUser(req.body);
+        return res.status(statusCode).json({success, data});
     }
     catch(err) {
         return res.status(500).json({success: false, err: err });
@@ -68,10 +68,23 @@ const destroy = async (req, res) => {
     }
 }
 
+const login = async (req,res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+    try {
+        const {success, data} = await UserService.loginUser(email,password);
+        return res.json({ success, data} );    
+    }
+    catch(err) {
+        return res.status(500).json({success: false, err:err });
+    }
+}
+
 module.exports = {
     create,
     retrieve,
     list,
     destroy,
-    update
+    update,
+    login
 }

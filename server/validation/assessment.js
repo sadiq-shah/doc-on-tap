@@ -1,19 +1,13 @@
 const Joi = require('joi');
 
-module.exports = (patient, update) => {
+module.exports = (assessment, update) => {
     let schema = Joi.object().keys({
-      userId: Joi.number().required(),
-      location: Joi.string().min(5),
-      phoneNo: Joi.string().min(11),
-      isDiabetic: Joi.boolean(),
-      isSmoker: Joi.boolean(),
-      isHypertension: Joi.boolean(),
-      isObese: Joi.boolean()
-    });
+      patientId: Joi.number().required()
+     });
 
     if(update) {
-      schema = schema.optionalKeys("userId", "location", "phoneNo", "isDiabetic","isSmoker","isHypertension","isObese");
+      schema = schema.optionalKeys("patientId");
     }
   
-    return Joi.validate(patient, schema);
+    return Joi.validate(assessment, schema);
 }

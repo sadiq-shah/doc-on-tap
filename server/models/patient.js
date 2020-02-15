@@ -39,7 +39,8 @@ module.exports = (sequelize, DataTypes) => {
 
     Patient.hasMany(models.Appointment, {
       foriegnKey: 'patientId',
-      as: 'appointments'
+      as: 'appointments',
+      sourceKey: 'id'
     });
 
     Patient.hasMany(models.Review, {
@@ -50,6 +51,7 @@ module.exports = (sequelize, DataTypes) => {
     Patient.hasMany(models.Assessment, {
       foreignKey: 'assessmentId',
       as: 'assessments',
+      sourceKey: 'id'
     });
 
   };

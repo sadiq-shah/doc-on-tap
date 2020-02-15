@@ -1,14 +1,23 @@
 const UserModel = require('./../models').User;
+const statusCodes = require("./../constants/statusCodes");
+const { passwordValidity, hashPassword } = require("../functions/helpers");
 
 const createUser = async (user) => {
+    try {
+        user.password = await hashPassword(user.password);
+    }
+    catch(err) {
+        return {statusCode: statusCodes.BAD_REQUEST, success: false, data: err};
+}
     try {
         const newUser = await UserModel.create({
             ...user
         });
-        return {success: true, data: newUser};
+        
+        return {statusCode: statusCodes.CREATED, success: true, data: newUser};
     }   
     catch (err) {
-        return {success: false, data: err};
+        return {statusCode: statusCodes.BAD_REQUEST, success: false, data: err};
     }
 }
 
@@ -78,10 +87,36 @@ const destroyUser = async (userId) => {
     }
 }
 
+const loginUser = async (email,password) => {
+    try {
+        const data = await UserModel.findOne({
+            where: {email: email}
+        });
+
+        if(data) {
+            const valid = passwordValidity(password,data.password);
+            if(!valid) {
+                return {statusCode: statusCodes.UNAUTHORIZED, success:true, message: "Email And Password Doesnot Match."};    
+            } 
+            else {
+                
+                return {statusCode: statusCodes.OK, success:true, data: data};
+            }
+        }
+        else {
+            return {statusCode: statusCodes.UNAUTHORIZED, success:true, message: "Email Address Doesnot exists"};
+        }
+    }
+    catch(err) {
+        return { success: false, data: err};
+    }
+}
+
 module.exports = {
     createUser,
     listUsers,
     getUserById,
     updateUser,
-    destroyUser
+    destroyUser,
+    loginUser
 }

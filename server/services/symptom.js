@@ -1,24 +1,25 @@
 const SymptomModel = require('./../models').Symptom;
+const statusCodes = require("./../constants/statusCodes");
 
 const createSymptom = async (symptom) => {
     try {
         const newSymptom = await SymptomModel.create({
             ...symptom
         });
-        return {success: true, data: newSymptom};
+        return {statusCode: statusCodes.CREATED, success: true, data: newSymptom};
     }   
     catch (err) {
-        return {success: false, data: err};
+        return {statusCode: statusCodes.BAD_REQUEST, success: false, data: err};
     }
 }
 
 const listSymptoms = async () => {   
     try{
         const symptoms = await SymptomModel.findAll();
-        return { success:true, data: symptoms };
+        return { statusCode: statusCodes.OK, success:true, data: symptoms };
     }
     catch(err) {
-        return { success: false, data: err };
+        return { statusCode: statusCodes.BAD_REQUEST, success: false, data: err };
     }
 }
 
@@ -27,14 +28,14 @@ const getSymptomById = async (symptomId) => {
     try {
         const symptom = await SymptomModel.findByPk(symptomId);
         if(symptom) {
-            return {success:true, data: symptom};
+            return { statusCode: statusCodes.OK, success:true, data: symptom};
         }
         else {
-            return {success:true, message: "Not FOund"}
+            return { statusCode: statusCodes.NOT_FOUND, success:true, message: "Not Found"}
         }
     }
     catch(err) {
-        return { success: false, data: err};
+        return { statusCode: statusCodes.BAD_REQUEST, success: false, data: err};
     }
 }
 
@@ -44,19 +45,19 @@ const updateSymptom = async (symptomId,symptomUpdate) => {
         if(symptom) {
             try {
                 const updatedSymptom = await symptom.update( symptomUpdate,{fields: Object.keys(symptomUpdate) });
-                return { success: true, data: updatedSymptom };
+                return { statusCode: statusCodes.OK, success: true, data: updatedSymptom };
             }
             catch (err) {
-                return { success: false, data: err};   
+                return { statusCode: statusCodes.BAD_REQUEST, success: false, data: err};   
             }
           
         }
         else {
-            return { success: true, data: "Symptom Not Found"};
+            return { statusCode: statusCodes.NOT_FOUND, success: true, data: "Symptom Not Found"};
         }
     }
     catch (err) {
-        return { success: false, data: err};
+        return { statusCode: statusCodes.BAD_REQUEST, success: false, data: err};
     }
 }
 
@@ -66,14 +67,14 @@ const destroySymptom = async (symptomId) => {
       const symptom = await SymptomModel.findByPk(symptomId);
       if(symptom) {
         await symptom.destroy();
-        return {success :true, data: "Resource Deleted"};
+        return {statusCode: statusCodes.NO_CONTENT,  success :true, data: "Resource Deleted"};
       }
       else {
-          return {success: false, data: "Symptom Not Found"};
+          return { statusCode: statusCodes.NOT_FOUND, success: false, data: "Symptom Not Found" };
       }
     } 
     catch (err) {
-      return { success: false, data: err };
+      return { statusCode: statusCodes.BAD_REQUEST, success: false, data: err };
     }
 }
 

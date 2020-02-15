@@ -2,14 +2,14 @@ const DoctorService = require("../../services").DoctorService;
 const UserService = require("../../services").UserService;
 
 const checkIfUserIsDoctor = async (req,res,next) => {
-    const userId = req.body.userId;
+    const userId = req.params.userId;
     try {
         const {_, data} = await UserService.getUserById(userId);
         if(data && data.userType == 2) {
             next();
         }
         else {
-            res.status(500).json({success: false, message: "Invalid User Id."});
+            res.status(404).json({success: false, message: "Invalid User Id."});
         }
     }
     catch (ex) {
@@ -18,11 +18,11 @@ const checkIfUserIsDoctor = async (req,res,next) => {
 } 
 
 const ifDoctorExist = async (req,res,next) => {
-    const userId = req.body.userId;
+    const userId = req.params.userId;
     try {
         const {_, s, data} = await DoctorService.getDoctorByUserId(userId);
         if(data && data.userId) {
-            res.status(500).json({success: false, message: "Doctor with the given User Id Already Exists."});
+            res.status(404).json({success: false, message: "Doctor with the given User Id Already Exists."});
         }
         else {
             next();

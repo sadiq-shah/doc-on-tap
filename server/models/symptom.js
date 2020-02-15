@@ -13,7 +13,8 @@ module.exports = (sequelize, DataTypes) => {
   Symptom.associate = function(models) {
     
     Symptom.belongsTo(models.Assessment, {
-      foreignKey: 'assesmentId',
+      foreignKey: 'assessmentId',
+      targetKey: 'id',
       onDelete: 'CASCADE',
     });
 

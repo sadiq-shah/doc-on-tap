@@ -7,6 +7,7 @@ const DoctorScheduleService = require("./doctorSchedule");
 const ReviewService = require("./review");
 const DiseaseService = require("./disease");
 const SymptomService = require("./symptom");
+const ConditionService = require("./condition");
 
 module.exports = {
     UserService,
@@ -18,5 +19,6 @@ module.exports = {
     ReviewService,
     DiseaseService,
     SymptomService,
-    AssessmentService
+    AssessmentService,
+    ConditionService
 }

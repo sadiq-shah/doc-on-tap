@@ -1,5 +1,6 @@
 const PatientModel = require('./../models').Patient;
 const statusCodes = require("./../constants/statusCodes");
+const AssessmentModel = require("./../models").Assessment;
 
 const createPatient = async (patient) => {
     try {
@@ -97,11 +98,37 @@ const getPatientByUserId = async (userId) => {
     }
 }
 
+
+const listPatientAssessments = async (userId) => {
+    try {
+        const patient = await PatientModel.findOne({
+            where: {userId: userId},
+            include:[{
+                model: AssessmentModel,
+                as: "assessments"
+               }
+             ],
+             attributes: ['id']
+        });
+        
+        if(patient) {
+            return {statusCode: statusCodes.OK, success:true, data: patient};
+        }
+        else {
+            return {statusCode: statusCodes.NOT_FOUND, success:true, data: "Not Found"}
+        }
+    }
+    catch(err) {
+        return {statusCode: statusCodes.BAD_REQUEST, success: false, data: err};
+    }
+}
+
 module.exports = {
     createPatient,
     listPatients,
     getPatientById,
     updatePatient,
     destroyPatient,
-    getPatientByUserId
+    getPatientByUserId,
+    listPatientAssessments
 }

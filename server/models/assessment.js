@@ -6,30 +6,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    time: {
-      type: DataTypes.DATE,
-      defaultValue: Date.now()
-    },
-    disease1: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    disease1Prob: {
-      type: DataTypes.FLOAT,
-      allowNull: false
-    },
-    disease2Name: {
-      type: DataTypes.STRING
-    },
-    disease2Prob: {
-      type: DataTypes.FLOAT
-    },
-    disease3Name: {
-      type: DataTypes.STRING
-    },
-    disease3Prob: {
-      type: DataTypes.FLOAT
-    }
 
   }, {});
   Assessment.associate = function(models) {
@@ -37,11 +13,19 @@ module.exports = (sequelize, DataTypes) => {
     Assessment.belongsTo(models.Patient, {
       foreignKey: 'patientId',
       onDelete: 'CASCADE',
+      targetKey: 'id'
     });
 
     Assessment.hasMany(models.Symptom, {
       foreignKey: 'assessmentId',
       as: 'symptoms',
+      sourceKey: 'id'
+    });
+
+    Assessment.hasMany(models.Condition, {
+      foreignKey: 'assessmentId',
+      as: 'conditions',
+      sourceKey: 'id'
     });
 
   };

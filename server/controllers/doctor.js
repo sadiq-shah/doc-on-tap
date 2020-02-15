@@ -9,8 +9,9 @@ const create = async (req,res) => {
         .json({ success: false, err: err.details[0].message });
     }
     try {
+        req.body.userId = req.params.userId;
         const { statusCode, success, data } =  await DoctorService.createDoctor(req.body);
-        return res.json({ statusCode, success, data });
+        return res.status(statusCode).json({ success, data });
     }
     catch(err) {
         return res.status(500).json({success: false, err: err });
@@ -68,9 +69,9 @@ const destroy = async (req, res) => {
 }
 
 module.exports = {
-create,
-retrieve,
-list,
-destroy,
-update
+    create,
+    retrieve,
+    list,
+    destroy,
+    update
 }

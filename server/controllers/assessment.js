@@ -9,7 +9,7 @@ const create = async (req,res) => {
         .json({ success: false, err: err.details[0].message });
     }
     try {
-        const {statusCode,  success, data } =  await AssessmentService.createPatient(req.body);
+        const {statusCode,  success, data } =  await AssessmentService.createAssessment(req.body);
         return res.status(statusCode).json({success, data});
     }
     catch(err) {
@@ -19,18 +19,20 @@ const create = async (req,res) => {
 
 const list = async(req,res) => {
     try {
-        const {statusCode, success, data } = await AssessmentService.listPatients();
+        console.log("Listing Conditions");
+        const {statusCode, success, data } = await AssessmentService.listAssessments();
         return res.status(statusCode).json({ success,data });
     }
     catch(err) {
         return res.status(500).json({success: false, err:err });
-    } a
+    } 
 } 
 
 const retrieve = async (req,res) => {
     const assessmentId = req.params.id;
     try {
-        const {statusCode, success, data} = await AssessmentService.getPatientById(assessmentId);
+        
+        const {statusCode, success, data} = await AssessmentService.getAssessmentById(assessmentId);
         return res.status(statusCode).json({success, data} );    
     }
     catch(err) {
@@ -48,7 +50,7 @@ const update = async (req, res) => {
     const assessment = req.body;
     const assessmentId = req.params.id;
     try {
-        const {statusCode, success, data } = await AssessmentService.updatePatient(assessmentId,assessment);
+        const {statusCode, success, data } = await AssessmentService.updateAssessment(assessmentId,assessment);
         return res.status(statusCode).json( {success, data } );
     }
     catch(err) {
@@ -59,7 +61,7 @@ const update = async (req, res) => {
 const destroy = async (req, res) => {
     const assessmentId = req.params.id;
     try {
-        const {statusCode, success, data } = await AssessmentService.destroyPatient(assessmentId);
+        const {statusCode, success, data } = await AssessmentService.destroyAssessment(assessmentId);
         return res.status(statusCode).json({success,data});     
     }
     catch(err) {

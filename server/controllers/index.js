@@ -7,6 +7,7 @@ const DiseaseController = require("./disease");
 const DoctorScheduleController = require("./doctorSchedule");
 const ReviewController = require("./review");
 const SymptomController = require('./symptom');
+const ConditionController = require("./condition");
 
 module.exports = {
     User,
@@ -17,5 +18,6 @@ module.exports = {
     DoctorScheduleController,
     ReviewController,
     SymptomController,
-    AssessmentController
+    AssessmentController,
+    ConditionController
 }

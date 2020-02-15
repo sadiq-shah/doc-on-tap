@@ -1,5 +1,6 @@
 const PatientService = require("./../services").PatientService;
 const PatientValidation = require("./../validation").PatientValidation;
+const AssessmentService = require('../services').AssessmentService;
 
 const create = async (req,res) => {
     const { err } = PatientValidation(req.body, false);
@@ -10,11 +11,9 @@ const create = async (req,res) => {
     }
     try {
         const {statusCode,  success, data } =  await PatientService.createPatient(req.body);
-        console.log("Trying to create");
         return res.status(statusCode).json({success, data});
     }
     catch(err) {;
-        console.log("Failing ");
         return res.status(500).json({success: false, err: err });
     }
 
@@ -63,7 +62,6 @@ const destroy = async (req, res) => {
     const patientId = req.params.id;
     try {
         const {statusCode, success, data } = await PatientService.destroyPatient(patientId);
-        console.log("Destroyed");
         return res.status(statusCode).json({success,data});     
     }
     catch(err) {
@@ -71,10 +69,21 @@ const destroy = async (req, res) => {
     }
 }
 
+const assessmentlist = async(req,res) => {
+    const userId = req.params.id;
+    try {
+        const {statusCode, success, data } = await AssessmentService.getAssessmentsByPatientId(userId);
+        return res.status(statusCode).json({ success,data });
+    }
+    catch(err) {
+        return res.status(500).json({success: false, err:err });
+    }
+} 
 module.exports = {
     create,
     retrieve,
     list,
     update,
-    destroy
+    destroy,
+    assessmentlist
 }

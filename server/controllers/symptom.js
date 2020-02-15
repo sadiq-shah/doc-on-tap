@@ -9,6 +9,7 @@ const create = async (req,res) => {
         .json({ success: false, err: err.details[0].message });
     }
     try {
+        console.log("Here");
         const { success, data } =  await SymptomService.createSymptom(req.body);
         return res.json({success, data});
     }
