@@ -2,7 +2,7 @@ const PatientService = require("../../services").PatientService;
 const UserService = require("../../services").UserService;
 
 const checkIfUserIsPatient = async (req,res,next) => {
-    const userId = req.body.userId;
+    const userId = req.params.userId;
     try {
         const {_, data} = await UserService.getUserById(userId);
         if(data && data.userType == 1) {
@@ -33,7 +33,7 @@ const checkPatient = async (userId) => {
 }
 
 const ifPatientDoesExist = async (req,res,next) => {
-    const userId = req.body.patientId;
+    const userId = req.params.patientId;
     try {
         const patientExist = await checkPatient(userId)
         if( patientExist ) {
@@ -49,7 +49,7 @@ const ifPatientDoesExist = async (req,res,next) => {
 }
 
 const ifPatientExist = async (req,res,next) => {
-    const userId = req.body.userId;
+    const userId = req.params.userId;
     try {
         const {_, s, data} = await PatientService.getPatientByUserId(userId);
         if(data && data.userId) {

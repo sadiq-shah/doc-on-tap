@@ -4,6 +4,7 @@ const PatientController = require('./../../controllers/patient');
 const { checkIfUserIsPatient, ifPatientExist } = require("./../middlewares/patient");
 const DoctorController = require('./../../controllers').DoctorController;
 const { checkIfUserIsDoctor, ifDoctorExist } = require("./../middlewares/doctor");
+
 /**
  * @swagger
  * definitions:
@@ -152,7 +153,7 @@ Router.get("/", UserController.list);
 
 /**
 * @swagger
-* /api/v1/patient:
+* /api/v1/:userId/patient:
 *   post:
 *     tags:
 *       - Patients
@@ -346,6 +347,6 @@ Router.get("/", UserController.list);
 *             err:
 *               type: object
 */
-Router.post("/:userId", checkIfUserIsDoctor, ifDoctorExist, DoctorController.create);
+Router.post("/:userId/doctor", checkIfUserIsDoctor, ifDoctorExist, DoctorController.create);
 
 module.exports = Router
