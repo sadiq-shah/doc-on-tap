@@ -3,13 +3,26 @@ const statusCodes = require("./../constants/statusCodes");
 const ConditionModel = require("../models").Condition;
 const SymptomModel = require("../models").Symptom;
 const PatientModel = require("../models").Patient;
+const ConditionService = require("./condition");
+const SymptomService = require("./symptom");
 
-const createAssessment = async (assessment) => {
+const createAssessment = async (reqBody) => {
     try {
-        const newAssessment = await AssessmentModel.create({
-            ...assessment
+        const patientId = reqBody.patientId;
+        const conditions = reqBody.conditions;
+        const symptoms = reqBody.symptoms;
+        let newAssessment = await AssessmentModel.create({
+            patientId: patientId
         });
-        return {statusCode: statusCodes.CREATED, success: true, data: newAssessment};
+        try {
+            await ConditionService.createConditionsOfAssesment(newAssessment.id,conditions);
+            await SymptomService.createSymptomsOfAssesment(newAssessment.id,symptoms);     
+            const assessment = {newAssessment, conditions, symptoms }
+            return {statusCode: statusCodes.CREATED, success: true, data: assessment };
+        }
+        catch(err) {
+            return {statusCode: statusCodes.BAD_REQUEST, success: false, data: err};
+        }
     }   
     catch (err) {  
         return {statusCode: statusCodes.BAD_REQUEST, success: false, data: err};

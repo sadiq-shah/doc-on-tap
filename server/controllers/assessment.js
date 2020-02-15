@@ -2,13 +2,16 @@ const AssessmentService = require("./../services").AssessmentService;
 const AssessmentValidation = require("./../validation").AssessmentValidation;
 
 const create = async (req,res) => {
+
     const { err } = AssessmentValidation(req.body, false);
     if(err) {
         return res  
         .status(500)
         .json({ success: false, err: err.details[0].message });
     }
+
     try {
+        req.body.patientId = req.params.patientId;
         const {statusCode,  success, data } =  await AssessmentService.createAssessment(req.body);
         return res.status(statusCode).json({success, data});
     }
@@ -19,7 +22,6 @@ const create = async (req,res) => {
 
 const list = async(req,res) => {
     try {
-        console.log("Listing Conditions");
         const {statusCode, success, data } = await AssessmentService.listAssessments();
         return res.status(statusCode).json({ success,data });
     }

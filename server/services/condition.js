@@ -75,10 +75,41 @@ const destroyCondition = async (conditionId) => {
     }
 }
 
+const addAssessment = (conditions, assessmentId) => {
+    let newconditions = [];
+    for(let i=0;i<conditions.length;++i) {
+        condition = { ...conditions[i], assessmentId: assessmentId};
+        newconditions.push(condition);
+    }
+    return newconditions;
+}
+   
+  
+const createConditionsOfAssesment =  async (assessmentId, conditions) => {
+    const a = conditions;
+    try {
+        let updatedCondition = addAssessment(a,assessmentId);     
+        console.log(updatedCondition);
+        try {
+            await ConditionModel.bulkCreate(updatedCondition, {returning: true});
+            return { updatedCondition };
+        }
+        catch(err) {
+            console.log('Error in bulk',err);
+            return { success:false}
+        }
+    }
+    catch (err) {
+        console.log('Error Outside bulk.',err )
+        return { statusCode: statusCodes.BAD_REQUEST, success: false, data: err };
+    }
+}
+
 module.exports = {
     createCondition,
     listConditions,
     getConditionById,
     updateCondition,
-    destroyCondition
+    destroyCondition,
+    createConditionsOfAssesment
 }

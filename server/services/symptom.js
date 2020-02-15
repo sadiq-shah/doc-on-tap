@@ -78,10 +78,37 @@ const destroySymptom = async (symptomId) => {
     }
 }
 
+
+const addAssessment = (symptoms, assessmentId) => {
+    let newSymptoms = [];
+    for(let i=0;i<symptoms.length;++i) {
+        symptom = { ...symptoms[i], assessmentId: assessmentId};
+        newSymptoms.push(symptom);
+    }
+    return newSymptoms;
+}
+   
+const createSymptomsOfAssesment =  async (assessmentId, symptoms) => {
+    try {
+        let updatedSymptom = addAssessment(symptoms,assessmentId);     
+        try {
+            await SymptomModel.bulkCreate(updatedSymptom, {returning: true});
+            return { updatedSymptom };
+        }
+        catch(err) {
+            return { err };
+        }
+    }
+    catch (err) {
+        return { err };
+    }
+}
+
 module.exports = {
     createSymptom,
     listSymptoms,
     getSymptomById,
     updateSymptom,
-    destroySymptom
+    destroySymptom,
+    createSymptomsOfAssesment
 }

@@ -1,16 +1,22 @@
 const Router = require("express").Router();
 const PatientController = require('./../../controllers/').PatientController;
-const { checkIfUserIsPatient, ifPatientExist } = require("./../middlewares/patient");
+const AssessmentController = require('./../../controllers').AssessmentController;
+const { ifPatientDoesExist } = require("./../middlewares/patient");
 
+Router.get("/", PatientController.list);
+Router.get("/:id", PatientController.retrieve);
+Router.put("/:id", PatientController.update);
+Router.delete("/:id", PatientController.destroy);
+Router.get("/:id/assessments", PatientController.assessmentlist);
 
 /**
 * @swagger
-* /api/v1/patient:
+* /api/v1/patient/:patientId/assessment:
 *   post:
 *     tags:
-*       - Patients
-*     name: Create Patient
-*     summary: Create a new patient. User with userType = 1 must exist in order for patient to get created.
+*       - Assessment
+*     name: Create Assessment
+*     summary: Create a new Assessment. You have to pass symptoms and conditions array.
 *     consumes:
 *       - application/json
 *     produces:
@@ -19,30 +25,31 @@ const { checkIfUserIsPatient, ifPatientExist } = require("./../middlewares/patie
 *       - name: body
 *         in: body
 *         schema:
-*           type: object
-*           properties: 
-*             location:
-*               type: string
-*             phoneNo:
-*               type: string
-*             isDiabetic:
-*               type: boolean
-*               default: false
-*             isSmoker:
-*               type: boolean
-*               default: false
-*             isHypertension:
-*               type: boolean
-*               default: false
-*             isObese:
-*               type: boolean
-*               default: false
+*               type: object
+*               properties: 
+*                   conditions:
+*                       type: array
+*                       items:
+*                           type: object
+*                           properties:
+*                               name:
+*                                   type: string
+*                               probability:
+*                                   type: number
+*                                   format: float                   
+*                   symptoms:
+*                       type: array
+*                       items:
+*                           type: object
+*                           properties:
+*                              name:
+*                                   type: string                   
 *         required:
-*           - location
-*           - phoneNo
+*           - conditions
+*           - symptoms
 *     responses:
 *       201:
-*         description: Patient Created Successfully.
+*         description: Assessment Created Successfully. Make A request to see it properly.
 *         schema:
 *           type: object
 *           properties: 
@@ -52,42 +59,28 @@ const { checkIfUserIsPatient, ifPatientExist } = require("./../middlewares/patie
 *             data:
 *               type: object
 *               properties:
-*                   id:
-*                     type: number
-*                     default: 1
-*                   userId:
-*                     type: number
-*                     default: 1
-*                   phoneNo:
-*                     type: string
-*                     default: 03318158386
-*                   location:
-*                     type: string
-*                   isDiabetic:
-*                     type: boolean
-*                   isObese:
-*                     type: boolean
-*                   isSmoker:
-*                     type: boolean
-*                   isHypertension:
-*                     type: boolean
-*                   createdAt:
-*                     type: string
-*                     format: date
-*                   updatedAt:
-*                     type: string
-*                     format: date
-*       404:
-*         description: Patient with the given id already exists.
-*         schema:
-*           type: object
-*           properties: 
-*             success:
-*               type: boolean
-*               default: false
-*             message:
-*               type: string
-*               default: Patient with the given User Id Already Exists.
+*                   newAssesment:
+*                       type: object
+*                       properties:
+*                       id:
+*                          type:number
+*                   conditions:
+*                       type: array
+*                       items:
+*                            type: object
+*                            properties:
+*                               name:
+*                                   type: string
+*                               probability:
+*                                   type: number
+*                                   default: 0.24
+*                   symptoms:
+*                       type: array
+*                       items:
+*                            type: object
+*                            properties:
+*                               name:
+*                                   type: string                                
 *       500:
 *         description: Bad Request, Success in response will be false
 *         schema:
@@ -99,14 +92,6 @@ const { checkIfUserIsPatient, ifPatientExist } = require("./../middlewares/patie
 *             err:
 *               type: object
 */
-
-Router.post("/", checkIfUserIsPatient, ifPatientExist, PatientController.create);
-Router.get("/", PatientController.list);
-Router.get("/:id", PatientController.retrieve);
-Router.put("/:id", PatientController.update);
-Router.delete("/:id", PatientController.destroy);
-
-Router.get("/:id/assessments", PatientController.assessmentlist);
-
+Router.post("/:patientId/assessment", ifPatientDoesExist, AssessmentController.create);
 
 module.exports = Router
