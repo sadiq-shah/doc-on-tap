@@ -10,6 +10,7 @@ const create = async (req,res) => {
         .json({ success: false, err: err.details[0].message });
     }
     try {
+        req.body.userId = req.params.userId;
         const {statusCode,  success, data } =  await PatientService.createPatient(req.body);
         return res.status(statusCode).json({success, data});
     }
@@ -79,6 +80,7 @@ const assessmentlist = async(req,res) => {
         return res.status(500).json({success: false, err:err });
     }
 } 
+
 module.exports = {
     create,
     retrieve,
