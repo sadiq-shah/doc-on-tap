@@ -116,7 +116,6 @@ const destroyAssessment = async (assessmentId) => {
 }
 
 const getAssessmentsByPatientId = async (patientId) => {
-   console.log("Here");
     try {
         const assessment = await AssessmentModel.findAll({
             where: {patientId: patientId},
@@ -142,6 +141,7 @@ const getAssessmentsByPatientId = async (patientId) => {
         return {statusCode: statusCodes.BAD_REQUEST, success: false, data: err};
     }
 }
+
 
 module.exports = {
     createAssessment,

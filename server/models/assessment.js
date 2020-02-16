@@ -28,6 +28,12 @@ module.exports = (sequelize, DataTypes) => {
       sourceKey: 'id'
     });
 
+    Assessment.hasOne(models.Appointment, {
+      foreignKey: "assessmentId",
+      as: "appointment",
+      onDelete: "CASCADE"
+    });
+
   };
   return Assessment;
 };

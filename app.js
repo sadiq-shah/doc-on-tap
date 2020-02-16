@@ -28,7 +28,6 @@ app.get('/swagger.json', function(req, res) {
 
 
 app.use("/api-docs", swaggerUI.serve,swaggerUI.setup(swaggerSpec));
-
 app.use(Cors());
 app.use(logger("dev"));
 app.use(bodyParser.json());

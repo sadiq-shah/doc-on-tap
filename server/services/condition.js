@@ -84,23 +84,18 @@ const addAssessment = (conditions, assessmentId) => {
     return newconditions;
 }
    
-  
 const createConditionsOfAssesment =  async (assessmentId, conditions) => {
-    const a = conditions;
     try {
-        let updatedCondition = addAssessment(a,assessmentId);     
-        console.log(updatedCondition);
+        let updatedCondition = addAssessment(conditions,assessmentId);     
         try {
             await ConditionModel.bulkCreate(updatedCondition, {returning: true});
             return { updatedCondition };
         }
         catch(err) {
-            console.log('Error in bulk',err);
-            return { success:false}
+            return { statusCode: statusCodes.BAD_REQUEST, success: false, data: err };
         }
     }
     catch (err) {
-        console.log('Error Outside bulk.',err )
         return { statusCode: statusCodes.BAD_REQUEST, success: false, data: err };
     }
 }

@@ -98,8 +98,7 @@ const loginUser = async (email,password) => {
             if(!valid) {
                 return {statusCode: statusCodes.UNAUTHORIZED, success:true, message: "Email And Password Doesnot Match."};    
             } 
-            else {
-                
+            else {   
                 return {statusCode: statusCodes.OK, success:true, data: data};
             }
         }

@@ -153,7 +153,7 @@ Router.get("/", UserController.list);
 
 /**
 * @swagger
-* /api/v1/:userId/patient:
+* /api/v1/user/:userId/patient:
 *   post:
 *     tags:
 *       - Patients

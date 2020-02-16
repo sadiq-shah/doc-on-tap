@@ -31,12 +31,12 @@ module.exports = (sequelize, DataTypes) => {
       Doctor.belongsTo(models.User, {
         foriegnKey: 'userId',
         as: 'user',
-        // onDelete: 'CASCADE'
       });
 
       Doctor.hasMany(models.Appointment, {
         foriegnKey: 'doctorId',
-        as: 'appointments'
+        as: 'appointments',
+        sourceKey: 'id'
       });
 
       Doctor.hasMany(models.Review, {

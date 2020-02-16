@@ -2,6 +2,7 @@ const Router = require("express").Router();
 const PatientController = require('./../../controllers/').PatientController;
 const AssessmentController = require('./../../controllers').AssessmentController;
 const { ifPatientDoesExist } = require("./../middlewares/patient");
+const AppointmentController = require("./../../controllers").AppointmentController;
 
 Router.get("/", PatientController.list);
 Router.get("/:id", PatientController.retrieve);
@@ -171,5 +172,99 @@ Router.get("/:id/assessment", PatientController.assessmentlist);
 *               type: object
 */
 Router.post("/:patientId/assessment", ifPatientDoesExist, AssessmentController.create);
+
+
+
+/**
+* @swagger
+* /api/v1/patient/:patientId/appointment:
+*   get:
+*     tags:
+*       - Appointment
+*     name: List Appointments Of Patient
+*     summary: Return all appointments of patients
+*     consumes:
+*       - application/json
+*     produces:
+*       - application/json
+*     responses:
+*       200:
+*         description: Appointments Of Patient returned successfully. Make A request to see it properly.
+*         schema:
+*           type: object
+*           properties: 
+*             success:
+*               type: boolean
+*               default: true
+*             data:
+*               type: object
+*               item: 
+*                   type: object
+*                   properties:
+*                       id:
+*                           type: number
+*                       status:
+*                           type: string
+*                       doctor:
+*                           type: object
+*                           properties:
+*                               id:
+*                                   type: number
+*                               userId:
+*                                   type: number
+*                               fee:
+*                                   type: number
+*                               hospital:
+*                                   type: string
+*                               qualification:
+*                                   type: string
+*                               specialization:
+*                                   type: string
+*                               rating:
+*                                   type: number
+*                               user:
+*                                   type: object
+*                                   properties:
+*                                       id:
+*                                           type: number
+*                                       name:
+*                                           type: string
+*                                       userType:
+*                                           type: number
+*                                       email:
+*                                           type: string
+*                                           format: email
+*                                       password:
+*                                           type: string
+*                                       dob:
+*                                           type: string
+*                                           format: date 
+*                                       createdAt:
+*                                           type: string
+*                                           format: date
+*                                       updatedAt:
+*                                           type: string
+*                                           format: date
+*                       assessment:
+*                           type: object
+*                           properties:
+*                               id:
+*                                   type: number
+*                               conditions:
+*                                   type: array
+*                               symptoms:
+*                                   type: array     
+*       500:
+*         description: Bad Request, Success in response will be false
+*         schema:
+*           type: object
+*           properties: 
+*             success:
+*               type: boolean
+*               default: false
+*             err:
+*               type: object
+*/
+Router.get("/:patientId/appointment", AppointmentController.listPatientAppointments);
 
 module.exports = Router

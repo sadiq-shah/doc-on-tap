@@ -27,12 +27,20 @@ module.exports = (sequelize, DataTypes) => {
   
     Appointment.belongsTo(models.Patient, {
       foreignKey: 'patientId',
-      onDelete: 'CASCADE',
+      as: 'patient',
+      targetKey: 'id'
     });
 
     Appointment.belongsTo(models.Doctor, {
       foreignKey: 'doctorId',
-      onDelete: 'CASCADE',
+      as: 'doctor',
+      targetKey: 'id'
+    });
+
+    Appointment.belongsTo(models.Assessment, {
+      foriegnKey: 'assessmentId',
+      as: 'assessment',
+      targetKey: 'id'
     });
   
   };

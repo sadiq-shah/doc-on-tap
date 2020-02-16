@@ -71,10 +71,23 @@ const destroy = async (req, res) => {
     }
 }
 
+const getPatientAssessments = async (req,res) => {
+    const patientId = req.params.patientId;
+    try {
+        
+        const {statusCode, success, data} = await AssessmentService.getPatientAssessments(patientId);
+        return res.status(statusCode).json({success, data} );    
+    }
+    catch(err) {
+        return res.status(500).json({success: false, err:err });
+    }
+}
+
 module.exports = {
     create,
     retrieve,
     list,
     update,
-    destroy
+    destroy,
+    getPatientAssessments
 }

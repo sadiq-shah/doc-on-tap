@@ -67,10 +67,35 @@ const destroy = async (req, res) => {
     }
 }
 
+const listPatientAppointments = async (req,res) => {
+    const patientId = req.params.patientId;
+    try {
+        const {statusCode, success, data} = await AppointmentService.getDoctorAppointments(patientId);
+        return res.status(statusCode).json({ success, data} );    
+    }
+    catch(err) {
+        return res.status(500).json({success: false, err:err });
+    }
+}
+
+
+const listDoctorAppointments = async (req,res) => {
+    const doctorId = req.params.doctorId;
+    try {
+        const {statusCode, success, data} = await AppointmentService.getDoctorAppointments(doctorId);
+        return res.status(statusCode).json({ success, data} );    
+    }
+    catch(err) {
+        return res.status(500).json({success: false, err:err });
+    }
+}
+
 module.exports = {
-create,
-retrieve,
-list,
-destroy,
-update
+    create,
+    retrieve,
+    list,
+    destroy,
+    update,
+    listPatientAppointments,
+    listDoctorAppointments
 }

@@ -1,4 +1,11 @@
 const AppointmentModel = require('./../models').Appointment;
+const AssessmentModel = require('./../models').Assessment;
+const DoctorModel = require('./../models').Doctor;
+const UserModel = require("./../models").User;
+const ConditionModel = require('./../models').Condition;
+const SymptomModel = require('./../models').Symptom;
+const PatientModel = require("./../models").Patient;
+const statusCodes = require("./../constants/statusCodes");
 
 const createAppointment = async (appointment) => {
     try {
@@ -7,6 +14,7 @@ const createAppointment = async (appointment) => {
         });
         return {success: true, data: newAppointment};
     }   
+
     catch (err) {
         return {success: false, data: err};
     }
@@ -78,10 +86,99 @@ const destroyAppointment = async (appointmentId) => {
     }
 }
 
+const getPatientAppointments = async (patientId) => {
+    try {
+        const appointment = await AppointmentModel.findAll({
+            where: {patientId: patientId},
+            include:[{
+                model: DoctorModel,
+                as: "doctor",
+                attributes: ['id', 'userId', 'fee','hospital','qualification','specialization','rating'],
+                include: [
+                    {model: UserModel, as:'user'}
+                ]
+               },
+               {
+                 model: AssessmentModel,
+                 as: "assessment",
+                 attributes: ['id', "createdAt"],
+                 include: [
+                     {
+                         model: ConditionModel,
+                         as: 'conditions'
+                     },
+                     {
+                         model: SymptomModel,
+                         as: 'symptoms'
+                     }
+                 ] 
+               }
+             ],
+             attributes: ['time', "status"]
+        });
+        if(appointment) {
+            return {statusCode: statusCodes.OK, success:true, data: appointment};
+        }
+        else {
+            return {statusCode: statusCodes.NOT_FOUND, success:true, message: "Not Found"}
+        }
+    }
+    catch(err) {
+        return { statusCode: statusCodes.BAD_REQUEST, success: false, data: err};
+    }
+}
+
+
+
+const getDoctorAppointments = async (patientId) => {
+    console.log("Here");
+    try {
+        const appointment = await AppointmentModel.findAll({
+            where: {patientId: patientId},
+            include:[{
+                model: PatientModel,
+                as: "patient",
+                attributes: ['id', 'userId', 'location','phoneNo'],
+                include: [
+                    {model: UserModel, as:'user'}
+                ]
+               },
+               {
+                 model: AssessmentModel,
+                 as: "assessment",
+                 attributes: ['id', "createdAt"],
+                 include: [
+                     {
+                         model: ConditionModel,
+                         as: 'conditions'
+                     },
+                     {
+                         model: SymptomModel,
+                         as: 'symptoms'
+                     }
+                 ] 
+               }
+             ],
+             attributes: ['time', "status"]
+        });
+        if(appointment) {
+            return {statusCode: statusCodes.OK,success:true, data: appointment};
+        }
+        else {
+            return {statusCode: statusCodes.NOT_FOUND,success:true, message: "Not Found"}
+        }
+    }
+    catch(err) {
+        return { statusCode: statusCodes.BAD_REQUEST, success: false, data: err};
+    }
+}
+
 module.exports = {
     createAppointment,
     listAppointments,
     getAppointmentById,
     updateAppointment,
-    destroyAppointment
+    destroyAppointment,
+    getPatientAppointments,
+    getDoctorAppointments
 }
