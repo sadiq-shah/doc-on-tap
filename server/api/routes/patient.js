@@ -267,4 +267,75 @@ Router.post("/:patientId/assessment", ifPatientDoesExist, AssessmentController.c
 */
 Router.get("/:patientId/appointment", AppointmentController.listPatientAppointments);
 
+/**
+* @swagger
+* /api/v1/patient/:patientId/appointment:
+*   post:
+*     tags:
+*       - Appointment
+*     name: Create Appointment
+*     summary: Create Appointment
+*     consumes:
+*       - application/json
+*     produces:
+*       - application/json
+*     parameters:
+*       - name: body
+*         in: body
+*         schema:
+*           type: object
+*           properties: 
+*             doctorId:
+*               type: number
+*             time:
+*               type: string
+*               format: date
+*             status:
+*               type: string
+*             assessmentId:
+*               type: string
+*     responses:
+*       200:
+*         description: Appointment Of Patient created successfully. Make A request to see it properly.
+*         schema:
+*           type: object
+*           properties: 
+*             success:
+*               type: boolean
+*               default: true
+*             data:
+*               type: object
+*               properties:
+*                   id:
+*                       type: number
+*                   doctorId:
+*                       type: number
+*                   time:
+*                       type: string
+*                       format: date
+*                   status:
+*                       type: string
+*                   assessmentId:
+*                       type: number
+*                   patientId:
+*                       type: number
+*                   updatedAt:
+*                       type: string
+*                       format: date
+*                   createdAt:
+*                       type: string
+*                       format: date
+*       500:
+*         description: Bad Request, Success in response will be false
+*         schema:
+*           type: object
+*           properties: 
+*             success:
+*               type: boolean
+*               default: false
+*             err:
+*               type: object
+*/
+Router.post("/:patientId/appointment", AppointmentController.create);
+
 module.exports = Router

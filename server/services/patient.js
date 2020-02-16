@@ -1,7 +1,7 @@
 const PatientModel = require('./../models').Patient;
 const statusCodes = require("./../constants/statusCodes");
 const AssessmentModel = require("./../models").Assessment;
-
+const UserModel = require("./../models").User;
 const createPatient = async (patient) => {
     try {
         const newPatient = await PatientModel.create({
@@ -81,9 +81,15 @@ const destroyPatient = async (patientId) => {
 }
 
 const getPatientByUserId = async (userId) => {
+    console.log("Patient");
+    console.log(userId);
     try {
         const patient = await PatientModel.findOne({
-            where: {userId: userId}
+            where: {userId: userId},
+            include: [{
+                model: UserModel,
+                as: 'user'
+            }]
         });
         
         if(patient) {

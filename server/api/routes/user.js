@@ -48,7 +48,7 @@ const { checkIfUserIsDoctor, ifDoctorExist } = require("./../middlewares/doctor"
 * /api/v1/user/signup:
 *   post:
 *     tags:
-*       - Users
+*       - User
 *     name: Create User
 *     summary: Create a new user. For patient, userType = 1 and for Doctor, userType = 2
 *     consumes:
@@ -131,7 +131,7 @@ Router.post("/signup", UserController.create);
 * /api/v1/user:
 *   get:
 *     tags:
-*       - Users
+*       - User
 *     name: List All Users
 *     summary: Return All Users
 *     consumes:
@@ -247,9 +247,85 @@ Router.get("/", UserController.list);
 *             err:
 *               type: object
 */
-
 Router.post("/:userId/patient", checkIfUserIsPatient, ifPatientExist, PatientController.create);
 
+/**
+* @swagger
+* /api/v1/user/login:
+*   post:
+*     tags:
+*       - User
+*     name: Login User
+*     summary: Login with email and password. Returns patient data if patient and doctor data if doctor. Make a request to have a better understanding.
+*     consumes:
+*       - application/json
+*     produces:
+*       - application/json
+*     parameters:
+*       - name: body
+*         in: body
+*         schema:
+*           type: object
+*           properties: 
+*             email:
+*               type: string
+*               format: email
+*             password:
+*               type: string
+*     responses:
+*       201:
+*         description: Patient Created Successfully.
+*         schema:
+*           type: object
+*           properties: 
+*             success:
+*               type: boolean
+*               default: true
+*             data:
+*               type: object
+*               properties:
+*                   id:
+*                     type: number
+*                     default: 1
+*                   userType:
+*                     type: number
+*                     default: 1
+*                   email:
+*                     type: string
+*                     format: email
+*                   password:
+*                     type: string
+*                   dob:
+*                     type: string
+*                     format: date
+*                   created_at:
+*                     type: string
+*                     format: date
+*                   updated_at:
+*                     type: string
+*                     format: date
+*       404:
+*         description: Patient with the given id already exists.
+*         schema:
+*           type: object
+*           properties: 
+*             success:
+*               type: boolean
+*               default: false
+*             message:
+*               type: string
+*               default: Patient with the given User Id Already Exists.
+*       500:
+*         description: Bad Request, Success in response will be false
+*         schema:
+*           type: object
+*           properties: 
+*             success:
+*               type: boolean
+*               default: false
+*             err:
+*               type: object
+*/
 Router.post("/login", UserController.login);
 
 Router.get("/:id", UserController.retrieve);

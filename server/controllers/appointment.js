@@ -9,6 +9,7 @@ const create = async (req,res) => {
         .json({ success: false, err: err.details[0].message });
     }
     try {
+        req.body.patientId = req.params.patientId;
         const { success, data } =  await AppointmentService.createAppointment(req.body);
         return res.json({success, data});
     }
@@ -81,6 +82,7 @@ const listPatientAppointments = async (req,res) => {
 
 const listDoctorAppointments = async (req,res) => {
     const doctorId = req.params.doctorId;
+    
     try {
         const {statusCode, success, data} = await AppointmentService.getDoctorAppointments(doctorId);
         return res.status(statusCode).json({ success, data} );    

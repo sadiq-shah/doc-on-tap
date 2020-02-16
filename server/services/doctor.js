@@ -1,5 +1,6 @@
 const DoctorModel = require('./../models').Doctor;
 const statusCodes = require("./../constants/statusCodes");
+const UserModel = require("./../models").User;
 
 const createDoctor = async (doctor) => {
     try {
@@ -83,7 +84,10 @@ const destroyDoctor = async (doctorId) => {
 const getDoctorByUserId = async (userId) => {
     try {
         const doctor = await DoctorModel.findOne({
-            where: {userId: userId}
+            where: {userId: userId},
+            include :[
+                { model: UserModel, as:"user"}
+            ]
         });
         
         if(doctor) {

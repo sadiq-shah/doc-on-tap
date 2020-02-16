@@ -1,7 +1,8 @@
 const UserModel = require('./../models').User;
 const statusCodes = require("./../constants/statusCodes");
 const { passwordValidity, hashPassword } = require("../functions/helpers");
-
+const PatientService = require('./patient');
+const DoctorService = require('./doctor');
 const createUser = async (user) => {
     try {
         user.password = await hashPassword(user.password);
@@ -89,16 +90,23 @@ const destroyUser = async (userId) => {
 
 const loginUser = async (email,password) => {
     try {
-        const data = await UserModel.findOne({
+        let data = await UserModel.findOne({
             where: {email: email}
         });
 
         if(data) {
-            const valid = passwordValidity(password,data.password);
+            valid = await passwordValidity(password,data.password);
             if(!valid) {
-                return {statusCode: statusCodes.UNAUTHORIZED, success:true, message: "Email And Password Doesnot Match."};    
+                return {statusCode: statusCodes.UNAUTHORIZED, success:false, data: "Email And Password Doesnot Match."};    
             } 
             else {   
+                if(data.userType == 1) {
+                    console.log("Use")
+                     data = await PatientService.getPatientByUserId(data.id);
+                }
+                else if(data.userType == 2) {
+                     data = await DoctorService.getDoctorByUserId(data.id);
+                }
                 return {statusCode: statusCodes.OK, success:true, data: data};
             }
         }
@@ -107,6 +115,7 @@ const loginUser = async (email,password) => {
         }
     }
     catch(err) {
+        console.log(err);
         return { success: false, data: err};
     }
 }
