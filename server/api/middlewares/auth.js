@@ -4,7 +4,7 @@ const statusCodes = require("./../../constants/statusCodes");
 const auth = (req,res,next) => {
     const token = req.header("x-auth-token");
     if(!token) {
-        res.status(statusCodes.UNAUTHORIZED).json({success:false, data: "Please Provide Authorization Token."});
+        return res.status(statusCodes.UNAUTHORIZED).json({success:false, data: "Please Provide Authorization Token."});
     }
     try {
         const decoded = jwt.verify(token, 'jwtPrivateKey');

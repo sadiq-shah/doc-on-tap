@@ -8,7 +8,7 @@ const swaggerUI = require("swagger-ui-express");
 
 // Add headers
 app.use(function (req, res, next) {
-
+    res.setHeader('Access-Control-Expose-Headers ','Access-Token, Uid');
     // Website you wish to allow to connect
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8888');
 
@@ -21,7 +21,7 @@ app.use(function (req, res, next) {
     // Set to true if you need the website to include cookies in the requests sent
     // to the API (e.g. in case you use sessions)
     res.setHeader('Access-Control-Allow-Credentials', true);
-
+    
     // Pass to next layer of middleware
     next();
 });
