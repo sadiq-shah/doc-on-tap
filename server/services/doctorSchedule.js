@@ -1,24 +1,25 @@
 const DoctorScheduleModel = require('./../models').DoctorSchedule;
+const statusCodes = require('./../constants/statusCodes');
 
 const createDoctorSchedule = async (doctorSchedule) => {
     try {
         const newDoctorSchedule = await DoctorScheduleModel.create({
             ...doctorSchedule
         });
-        return {success: true, data: newDoctorSchedule};
+        return {statusCode: statusCodes.CREATED, success: true, data: newDoctorSchedule};
     }   
     catch (err) {
-        return {success: false, data: err};
+        return { statusCode: statusCodes.BAD_REQUEST, success: false, data: err};
     }
 }
 
 const listDoctorSchedules = async () => {   
     try{
         const doctorSchedules = await DoctorScheduleModel.findAll();
-        return { success:true, data: doctorSchedules };
+        return { statusCode: statusCodes.OK, success:true, data: doctorSchedules };
     }
     catch(err) {
-        return { success: false, data: err };
+        return { statusCode: statusCodes.BAD_REQUEST, success: false, data: err };
     }
 }
 
@@ -27,14 +28,14 @@ const getDoctorScheduleById = async (doctorScheduleId) => {
     try {
         const doctorSchedule = await DoctorScheduleModel.findByPk(doctorScheduleId);
         if(doctorSchedule) {
-            return {success:true, data: doctorSchedule};
+            return {statusCode: statusCodes.OK, success:true, data: doctorSchedule};
         }
         else {
-            return {success:true, message: "Not FOund"}
+            return {statusCode: statusCodes.NOT_FOUND, success:true, data: "Not Found"}
         }
     }
     catch(err) {
-        return { success: false, data: err};
+        return { statusCode: statusCodes.BAD_REQUEST, success: false, data: err};
     }
 }
 
@@ -44,19 +45,19 @@ const updateDoctorSchedule = async (doctorScheduleId,doctorScheduleUpdate) => {
         if(doctorSchedule) {
             try {
                 const updatedDoctorSchedule = await doctorSchedule.update( doctorScheduleUpdate,{fields: Object.keys(doctorScheduleUpdate) });
-                return { success: true, data: updatedDoctorSchedule };
+                return { statusCode: statusCodes.OK, success: true, data: updatedDoctorSchedule };
             }
             catch (err) {
-                return { success: false, data: err};   
+                return { statusCode: statusCodes.BAD_REQUEST, success: false, data: err};   
             }
           
         }
         else {
-            return { success: true, data: "Doctor Schedule Not Found"};
+            return { statusCode: statusCodes.NOT_FOUND, success: true, data: "Doctor Schedule Not Found"};
         }
     }
     catch (err) {
-        return { success: false, data: err};
+        return { statusCode: statusCodes.BAD_REQUEST, success: false, data: err};
     }
 }
 
@@ -66,14 +67,14 @@ const destroyDoctorSchedule = async (doctorScheduleId) => {
       const doctorSchedule = await DoctorScheduleModel.findByPk(doctorScheduleId);
       if(doctorSchedule) {
         await doctorSchedule.destroy();
-        return {success :true, data: "Resource Deleted"};
+        return {statusCode: statusCodes.OK, success :true, data: "Resource Deleted"};
       }
       else {
-          return {success: false, data: "Doctor Schedule Not Found"};
+          return {statusCode: statusCodes.NOT_FOUND, success: false, data: "Doctor Schedule Not Found"};
       }
     } 
     catch (err) {
-      return { success: false, data: err };
+      return { statusCode: statusCodes.BAD_REQUEST, success: false, data: err };
     }
 }
 

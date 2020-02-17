@@ -3,8 +3,9 @@ const PatientController = require('./../../controllers/').PatientController;
 const AssessmentController = require('./../../controllers').AssessmentController;
 const { ifPatientDoesExist } = require("./../middlewares/patient");
 const AppointmentController = require("./../../controllers").AppointmentController;
+const { auth } = require('./../middlewares/auth');
 
-Router.get("/", PatientController.list);
+Router.get("/", auth ,PatientController.list);
 Router.get("/:id", PatientController.retrieve);
 Router.put("/:id", PatientController.update);
 Router.delete("/:id", PatientController.destroy);
@@ -69,6 +70,8 @@ Router.delete("/:id", PatientController.destroy);
 *                                       type: number
 *                                   name:
 *                                       type: string
+*                                   reported:
+*                                       type: boolean
 *                                   createdAt:
 *                                       type: string
 *                                       format: date

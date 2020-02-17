@@ -29,24 +29,25 @@ module.exports = (sequelize, DataTypes) => {
   Doctor.associate = function(models) {
       
       Doctor.belongsTo(models.User, {
-        foriegnKey: 'userId',
+        foreignKey: 'userId',
         as: 'user',
       });
 
       Doctor.hasMany(models.Appointment, {
-        foriegnKey: 'doctorId',
+        foreignKey: 'doctorId',
         as: 'appointments',
         sourceKey: 'id'
       });
 
       Doctor.hasMany(models.Review, {
-        foriegnKey: 'doctorId',
+        foreignKey: 'doctorId',
         as: 'reviews'
       });
 
       Doctor.hasMany(models.DoctorSchedule, {
-        foriegnKey: 'doctorId',
-        as: 'doctorSchedules'
+        foreignKey: 'doctorId',
+        as: 'doctorSchedule',
+        sourceKey: 'id'
       });
 
   };

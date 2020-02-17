@@ -1,6 +1,7 @@
 const DoctorModel = require('./../models').Doctor;
 const statusCodes = require("./../constants/statusCodes");
 const UserModel = require("./../models").User;
+const DoctorScheduleModel = require("./../models").DoctorSchedule;
 
 const createDoctor = async (doctor) => {
     try {
@@ -16,7 +17,18 @@ const createDoctor = async (doctor) => {
 
 const listDoctors = async () => {   
     try{
-        const doctors = await DoctorModel.findAll({ include:['user'] });
+        const doctors = await DoctorModel.findAll({ include:
+            [
+                { model: UserModel, as:"user",attributes: ['id']},
+                { 
+                    model: DoctorScheduleModel, 
+                    as: "doctorSchedules",
+                    attributes: ['from','to','doctorId']
+                }
+            ],
+            attributes: ['id']
+             
+        });
         return { statusCode: statusCodes.OK, success:true, data: doctors };
     }
     catch(err) {
@@ -86,7 +98,8 @@ const getDoctorByUserId = async (userId) => {
         const doctor = await DoctorModel.findOne({
             where: {userId: userId},
             include :[
-                { model: UserModel, as:"user"}
+                { model: UserModel, as:"user"},
+                { model: DoctorScheduleModel, as: "doctorSchedules"}
             ]
         });       
         if(doctor) {

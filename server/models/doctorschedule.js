@@ -17,10 +17,10 @@ module.exports = (sequelize, DataTypes) => {
   DoctorSchedule.associate = function(models) {
     
     DoctorSchedule.belongsTo(models.Doctor, {
-      foreignKey: 'doctorId',
-      onDelete: 'CASCADE',
+      foriegnKey: 'doctorId',
+      as: 'doctor',
     });
-
   };
+  
   return DoctorSchedule;
 };

@@ -9,8 +9,8 @@ const createUser = async (user) => {
         user.password = await hashPassword(user.password);
     }
     catch(err) {
-        return {statusCode: statusCodes.BAD_REQUEST, success: false, data: err};
-}
+        return {statusCode: statusCodes.BAD_REQUEST, success: false, data: err};    
+    }
     try {
         // Checking If User Already Exist
         let isUser = await UserModel.findOne({
@@ -37,7 +37,6 @@ const listUsers = async () => {
         return { success:true, data: users };
     }
     catch(err) {
-        console.log(err);
         return { success: false, data: err };
     }
 }
@@ -101,7 +100,6 @@ const loginUser = async (email,password) => {
         let data = await UserModel.findOne({
             where: {email: email}
         });
-
         if(data) {
             valid = await passwordValidity(password,data.password);
             if(!valid) {
@@ -109,7 +107,10 @@ const loginUser = async (email,password) => {
             } 
             else {   
                 if(data.userType == 1) {
+                    console.log(data.id);
+                    console.log("Patient");
                      data = await PatientService.getPatientByUserId(data.id);
+                    //  console.log(data.data)
                      return {statusCode: data.statusCode, success:data.success, data: data.data};
                 }
                 else if(data.userType == 2) {

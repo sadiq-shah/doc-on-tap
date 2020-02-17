@@ -1,5 +1,5 @@
-const DoctorScheduleService = require("./../services").DoctorSchedule;
-const DoctorScheduleValidation = require("./../validation").DoctorSchedule;
+const DoctorScheduleService = require("./../services").DoctorScheduleService;
+const DoctorScheduleValidation = require("./../validation").DoctorScheduleValidation;
 
 const create = async (req,res) => {
     const { err } = DoctorScheduleValidation(req.body, false);
@@ -9,8 +9,8 @@ const create = async (req,res) => {
         .json({ success: false, err: err.details[0].message });
     }
     try {
-        const { success, data } =  await DoctorScheduleService.createSchedule(req.body);
-        return res.json({success, data});
+        const { statusCode,  success, data } =  await DoctorScheduleService.createDoctorSchedule(req.body);
+        return res.status(statusCode).json({success, data});
     }
     catch(err) {
         return res.status(500).json({success: false, err: err });
@@ -19,8 +19,8 @@ const create = async (req,res) => {
 
 const list = async(req,res) => {
     try {
-        const { success, data } = await DoctorScheduleService.listSchedules();
-        return res.json({ success,data });
+        const {  statusCode, success, data } = await DoctorScheduleService.listDoctorSchedules();
+        return res.status(statusCode).json({ success,data });
     }
     catch(err) {
         return res.status(500).json({success: false, err:err });
@@ -30,8 +30,8 @@ const list = async(req,res) => {
 const retrieve = async (req,res) => {
     const doctorScheduleId = req.params.id;
     try {
-        const {success, data} = await DoctorScheduleService.getScheduleById(doctorScheduleId);
-        return res.json({ success, data} );    
+        const {  statusCode, success, data} = await DoctorScheduleService.getScheduleById(doctorScheduleId);
+        return res.status(statusCode).json({ success, data} );    
     }
     catch(err) {
         return res.status(500).json({success: false, err:err });
@@ -48,8 +48,8 @@ const update = async (req, res) => {
     const doctorSchedule = req.body;
     const doctorScheduleId = req.params.id;
     try {
-        const { success, data } = await DoctorScheduleService.updateSchedule(doctorScheduleId,doctorSchedule);
-        return res.json( {success, data } );
+        const {  statusCode, success, data } = await DoctorScheduleService.updateSchedule(doctorScheduleId,doctorSchedule);
+        return res.status(statusCode).json( {success, data } );
     }
     catch(err) {
         return res.status(500).json({success: false, err:err });
@@ -59,8 +59,8 @@ const update = async (req, res) => {
 const destroy = async (req, res) => {
     const doctorScheduleId = req.params.id;
     try {
-        const {success, data } = await DoctorScheduleService.destroySchedule(doctorScheduleId);
-        return res.json({success,data});     
+        const {  statusCode, success, data } = await DoctorScheduleService.destroySchedule(doctorScheduleId);
+        return res.status(statusCode).json({success,data});     
     }
     catch(err) {
         return res.status(500).json({success: false, err:err });

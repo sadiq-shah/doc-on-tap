@@ -85,6 +85,7 @@ const login = async (req,res) => {
         return res.header('x-auth-token', token).status(statusCode).json({ success, data} );    
     }
     catch(err) {
+        // console.log(err);
         return res.status(500).json({success: false, err:err });
     }
 }

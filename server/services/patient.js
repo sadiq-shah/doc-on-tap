@@ -89,12 +89,11 @@ const getPatientByUserId = async (userId) => {
                 as: 'user'
             }]
         });
-        
         if(patient) {
             return {statusCode: statusCodes.OK, success:true, data: patient};
         }
         else {
-            return {statusCode: statusCodes.NOT_FOUND, success:false, data: "Not Found."}
+            return { statusCode: statusCodes.NOT_FOUND, success:false, data: "Not Found." }
         }
     }
     catch(err) {
