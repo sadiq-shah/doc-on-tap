@@ -9,7 +9,7 @@ const checkIfUserIsDoctor = async (req,res,next) => {
             next();
         }
         else {
-            res.status(404).json({success: false, message: "Invalid User Id."});
+            res.status(404).json({success: false, data: "Invalid User Id."});
         }
     }
     catch (ex) {
@@ -22,7 +22,7 @@ const ifDoctorExist = async (req,res,next) => {
     try {
         const {_, s, data} = await DoctorService.getDoctorByUserId(userId);
         if(data && data.userId) {
-            res.status(404).json({success: false, message: "Doctor with the given User Id Already Exists."});
+            res.status(404).json({success: false, data: "Doctor with the given User Id Already Exists."});
         }
         else {
             next();

@@ -88,8 +88,7 @@ const getDoctorByUserId = async (userId) => {
             include :[
                 { model: UserModel, as:"user"}
             ]
-        });
-        
+        });       
         if(doctor) {
             return {statusCode: statusCodes.OK, success:true, data: doctor};
         }

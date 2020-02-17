@@ -81,8 +81,6 @@ const destroyPatient = async (patientId) => {
 }
 
 const getPatientByUserId = async (userId) => {
-    console.log("Patient");
-    console.log(userId);
     try {
         const patient = await PatientModel.findOne({
             where: {userId: userId},
@@ -96,7 +94,7 @@ const getPatientByUserId = async (userId) => {
             return {statusCode: statusCodes.OK, success:true, data: patient};
         }
         else {
-            return {statusCode: statusCodes.NOT_FOUND, success:true, data: "Not Found"}
+            return {statusCode: statusCodes.NOT_FOUND, success:false, data: "Not Found."}
         }
     }
     catch(err) {

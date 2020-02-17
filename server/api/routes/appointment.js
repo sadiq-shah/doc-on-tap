@@ -3,10 +3,10 @@ const AppointmentController = require('./../../controllers').AppointmentControll
 
 Router.get("/", AppointmentController.list);
 Router.get("/:id", AppointmentController.retrieve);
+
 Router.post("/", AppointmentController.create);
 Router.put("/:id", AppointmentController.update);
 Router.delete("/:id", AppointmentController.destroy);
-Router.get("/", AppointmentController.list);
 
 
 

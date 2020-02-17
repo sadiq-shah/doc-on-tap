@@ -40,8 +40,7 @@ const getUserById = async (userId) => {
             return {success:true, data: data};
         }
         else {
-            
-            return {success:true, message: "Not FOund"}
+            return {success:false, data: "Not FOund"}
         }
     }
     catch(err) {
@@ -101,22 +100,24 @@ const loginUser = async (email,password) => {
             } 
             else {   
                 if(data.userType == 1) {
-                    console.log("Use")
                      data = await PatientService.getPatientByUserId(data.id);
+                     return {statusCode: data.statusCode, success:data.success, data: data.data};
                 }
                 else if(data.userType == 2) {
                      data = await DoctorService.getDoctorByUserId(data.id);
+                     return {statusCode: data.statusCode, success:data.success, data: data.data};
                 }
-                return {statusCode: statusCodes.OK, success:true, data: data};
+                else {
+                    return {statusCode: statusCodes.UNAUTHORIZED, success:false, data: "User Type is not valid."};
+                }
             }
         }
         else {
-            return {statusCode: statusCodes.UNAUTHORIZED, success:true, message: "Email Address Doesnot exists"};
+            return {statusCode: statusCodes.UNAUTHORIZED, success:false, data: "Email Address Doesnot exists"};
         }
     }
     catch(err) {
-        console.log(err);
-        return { success: false, data: err};
+        return { statusCode: statusCodes.BAD_REQUEST,success: false, data: err};
     }
 }
 

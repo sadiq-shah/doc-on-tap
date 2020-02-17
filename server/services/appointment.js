@@ -131,7 +131,7 @@ const getPatientAppointments = async (patientId) => {
 
 
 const getDoctorAppointments = async (patientId) => {
-    console.log("Here");
+    
     try {
         const appointment = await AppointmentModel.findAll({
             where: {patientId: patientId},

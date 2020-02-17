@@ -1,4 +1,5 @@
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const hashPassword = async (password) => {
     const salt = await bcrypt.genSalt(10);
@@ -10,7 +11,12 @@ const passwordValidity =  async (passwordEntered, validPassword) => {
     return await bcrypt.compare(passwordEntered, validPassword);
 }
 
+const generateToken = (user) => {
+    return jwt.sign({ id:user.id, role_id: user.role_id }, 'jwtPrivateKey')
+}
+
 module.exports = {
     hashPassword,
-    passwordValidity
+    passwordValidity,
+    generateToken
 }

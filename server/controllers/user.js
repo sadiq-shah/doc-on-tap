@@ -1,5 +1,6 @@
 const UserService = require("./../services").UserService;
 const UserValidation = require("./../validation").UserValidation;
+const {generateToken} = require("./../functions/helpers");
 
 const create = async (req,res) => {
     const { err } = UserValidation(req.body, false);
@@ -72,19 +73,32 @@ const login = async (req,res) => {
     const email = req.body.email;
     const password = req.body.password;
     try {
-        const {success, data} = await UserService.loginUser(email,password);
-        return res.json({ success, data} );    
+        const {statusCode, success, data} = await UserService.loginUser(email,password);
+        const token =  generateToken(data.user);
+        return res.header('x-auth-token', token).status(statusCode).json({ success, data} );    
     }
     catch(err) {
+        console.log(err);
         return res.status(500).json({success: false, err:err });
     }
 }
 
+const getUserFromAuth = async (req,res) => {
+    const user = req.user;
+    try {
+        const {success, data} = await UserService.getUserById(user.id);    
+        return res.status(200).json({success, data });
+    }
+    catch(err) {
+        return res.status(500).json({success: false, data:err });
+    }
+}
 module.exports = {
     create,
     retrieve,
     list,
     destroy,
     update,
-    login
+    login,
+    getUserFromAuth
 }
