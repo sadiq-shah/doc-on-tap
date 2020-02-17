@@ -19,14 +19,14 @@ const listDoctors = async () => {
     try{
         const doctors = await DoctorModel.findAll({ include:
             [
-                { model: UserModel, as:"user",attributes: ['id']},
+                { model: UserModel, as:"user",attributes: ['id','name','email','dob']},
                 { 
                     model: DoctorScheduleModel, 
                     as: "doctorSchedules",
-                    attributes: ['from','to','doctorId']
+                    attributes: ['from','to','day']
                 }
             ],
-            attributes: ['id']
+            attributes: ['id','userId','fee','hospital','qualification','specialization','rating']
              
         });
         return { statusCode: statusCodes.OK, success:true, data: doctors };
@@ -39,15 +39,23 @@ const listDoctors = async () => {
 
 const getDoctorById = async (doctorId) => {
     try {
-        const doctor = await DoctorModel.findByPk(doctorId,{
-            include: ['user']
+        const doctor = await DoctorModel.findByPk(doctorId,{ include:
+            [
+                { model: UserModel, as:"user",attributes: ['id','name','email','dob']},
+                { 
+                    model: DoctorScheduleModel, 
+                    as: "doctorSchedules",
+                    attributes: ['from','to','day']
+                }
+            ],
+            attributes: ['id','userId','fee','hospital','qualification','specialization','rating']
         });
 
         if(doctor) {
             return {statusCode: statusCodes.OK, success:true, data: doctor};
         }
         else {
-            return {statusCode: statusCodes.NOT_FOUND, success:true, message: "Not Found"}
+            return {statusCode: statusCodes.NOT_FOUND, success:false, data: "Not Found"}
         }
     }
     catch(err) {

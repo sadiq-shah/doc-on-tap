@@ -1,6 +1,7 @@
 const UserService = require("./../services").UserService;
 const UserValidation = require("./../validation").UserValidation;
 const {generateToken} = require("./../functions/helpers");
+const jwt = require("jsonwebtoken");
 
 const create = async (req,res) => {
     const { err } = UserValidation(req.body, false);
@@ -27,8 +28,8 @@ const create = async (req,res) => {
 
 const list = async(req,res) => {
     try {
-        const { success, data } = await UserService.listUsers();
-        return res.json({ success,data });
+        const { statusCode, success, data } = await UserService.listUsers();
+        return res.status(statusCode).json({ success,data });
     }
     catch(err) {
         return res.status(500).json({success: false, err:err });
@@ -39,8 +40,8 @@ const list = async(req,res) => {
 const retrieve = async (req,res) => {
     const userId = req.params.id;
     try {
-        const {success, data} = await UserService.getUserById(userId);
-        return res.json({ success, data} );    
+        const { statusCode, success, data } = await UserService.getUserById(userId);
+        return res.status(statusCode).json({ success, data} );    
     }
     catch(err) {
         return res.status(500).json({success: false, err:err });
@@ -57,8 +58,8 @@ const update = async (req, res) => {
     const user = req.body;
     const userId = req.params.id;
     try {
-        const { success, data } = await UserService.updateUser(userId,user);
-        return res.json( {success, data } );
+        const { statusCode, success, data } = await UserService.updateUser(userId,user);
+        return res.status(statusCode).json( {success, data } );
     }
     catch(err) {
         return res.status(500).json({success: false, err:err });
@@ -68,8 +69,8 @@ const update = async (req, res) => {
 const destroy = async (req, res) => {
     const userId = req.params.id;
     try {
-        const {success, data } = await UserService.destroyUser(userId);
-        return res.json({success,data});     
+        const { statusCode, success, data } = await UserService.destroyUser(userId);
+        return res.status(statusCode).json({success,data});     
     }
     catch(err) {
         return res.status(500).json({success: false, err:err });
@@ -90,11 +91,18 @@ const login = async (req,res) => {
     }
 }
 
-const getUserFromAuth = async (req,res) => {
-    const user = req.user;
+const getUserFromAuth = async (req,res) => { 
+    jwt.verify(req.headers['x-auth-token'], 'jwtPrivateKey', (err, decodedToken) => {
+        if(err) { res.status(403).json({success:false,message:"Token is invalid"}) }
+        else {
+        req.userId = decodedToken.id;   
+        }
+    });
+    const user = req.userId;
     try {
-        const {success, data} = await UserService.getUserById(user.id);    
-        return res.status(200).json({success, data });
+        const {statusCode, success, data} = await UserService.getUserById(user);
+        const token =  generateToken(data.user);
+        return res.header('x-auth-token', token).status(statusCode).json({ success, data} );  
     }
     catch(err) {
         return res.status(500).json({success: false, data:err });

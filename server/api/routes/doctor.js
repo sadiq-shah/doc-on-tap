@@ -15,7 +15,7 @@ const AppointmentController = require('./../../controllers').AppointmentControll
 *       - application/json
 *     responses:
 *       200:
-*         description: An Array Of All Users Successfully.
+*         description: An Array Of All Doctors Successfully.It will also return doctorSchedule of each doctor. Make a request to see it properly.
 *         schema:
 *           type: object
 *           properties:
@@ -37,14 +37,10 @@ const AppointmentController = require('./../../controllers').AppointmentControll
 *                               type: string
 *                           qualification:
 *                               type: string
+*                           specialization:
+*                               type: string
 *                           rating:
 *                               type: number
-*                           createdAt:
-*                               type: string
-*                               format: date
-*                           updated:
-*                               type: string
-*                               format: date
 *                           user:
 *                               type: object
 *                               properties:
@@ -52,22 +48,12 @@ const AppointmentController = require('./../../controllers').AppointmentControll
 *                                       type: number
 *                                   name:
 *                                       type: string
-*                                   userType:
-*                                       type: string
 *                                   email:
 *                                       type: string
 *                                       format: email
-*                                   password:
-*                                       type: string
 *                                   dob:
 *                                       type: string
-*                                       format: date
-*                                   createdAt:
-*                                       type: string
-*                                       format: date
-*                                   updatedAt:
-*                                       type: string
-*                                       format: date             
+*                                       format: date                                                                        
 *       500:
 *         description: Bad Request, Success in response will be false
 *         schema:
@@ -81,7 +67,6 @@ const AppointmentController = require('./../../controllers').AppointmentControll
 */
 Router.get("/", DoctorController.list);
 
-
 /**
 * @swagger
 * /api/v1/doctor/:doctorId:
@@ -89,7 +74,7 @@ Router.get("/", DoctorController.list);
 *     tags:
 *       - Doctors
 *     name: Reterive data of doctor .
-*     summary: Return Data of the doctor of the given id.
+*     summary: Return Data of the doctor of the given id. It will also return doctor schedule. Make A Request to see it properly.
 *     consumes:
 *       - application/json
 *     produces:
@@ -118,12 +103,6 @@ Router.get("/", DoctorController.list);
 *                               type: string
 *                           rating:
 *                               type: number
-*                           createdAt:
-*                               type: string
-*                               format: date
-*                           updated:
-*                               type: string
-*                               format: date
 *                           user:
 *                               type: object
 *                               properties:
@@ -131,22 +110,22 @@ Router.get("/", DoctorController.list);
 *                                       type: number
 *                                   name:
 *                                       type: string
-*                                   userType:
-*                                       type: string
 *                                   email:
 *                                       type: string
 *                                       format: email
-*                                   password:
-*                                       type: string
 *                                   dob:
 *                                       type: string
-*                                       format: date
-*                                   createdAt:
-*                                       type: string
-*                                       format: date
-*                                   updatedAt:
-*                                       type: string
-*                                       format: date             
+*                                       format: date            
+*       404:
+*         description: Doctor with the given Id not found
+*         schema:
+*           type: object
+*           properties: 
+*             success:
+*               type: boolean
+*               default: false
+*             data:
+*               type: message
 *       500:
 *         description: Bad Request, Success in response will be false
 *         schema:

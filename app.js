@@ -8,7 +8,6 @@ const swaggerUI = require("swagger-ui-express");
 
 // Add headers
 app.use(function (req, res, next) {
-    res.setHeader('Access-Control-Expose-Headers ','Access-Token, Uid');
     // Website you wish to allow to connect
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8888');
 
@@ -46,9 +45,12 @@ app.get('/swagger.json', function(req, res) {
     res.send(swaggerSpec);
 });
 
+const corsOptions = {
+    exposedHeaders: 'x-auth-token',
+};
 
 app.use("/api-docs", swaggerUI.serve,swaggerUI.setup(swaggerSpec));
-app.use(Cors());
+app.use(Cors(corsOptions));
 app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended:false }));

@@ -149,6 +149,8 @@ Router.post("/signup", UserController.create);
 *         description: Required Parameters Needed
 */
 
+Router.get("/auth", UserController.getUserFromAuth);
+
 Router.get("/", UserController.list);
 
 /**
@@ -424,5 +426,7 @@ Router.get("/", UserController.list);
 *               type: object
 */
 Router.post("/:userId/doctor", checkIfUserIsDoctor, ifDoctorExist, DoctorController.create);
+
+
 
 module.exports = Router

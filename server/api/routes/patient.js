@@ -144,7 +144,7 @@ Router.get("/:id/assessment", PatientController.assessmentlist);
 *             data:
 *               type: object
 *               properties:
-*                   newAssesment:
+*                   assesment:
 *                       type: object
 *                       properties:
 *                       id:

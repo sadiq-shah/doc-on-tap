@@ -11,14 +11,14 @@ const createAssessment = async (reqBody) => {
         const patientId = reqBody.patientId;
         const conditions = reqBody.conditions;
         const symptoms = reqBody.symptoms;
-        let newAssessment = await AssessmentModel.create({
+        let assessment = await AssessmentModel.create({
             patientId: patientId
         });
         try {
-            await ConditionService.createConditionsOfAssesment(newAssessment.id,conditions);
-            await SymptomService.createSymptomsOfAssesment(newAssessment.id,symptoms);     
-            const assessment = {newAssessment, conditions, symptoms }
-            return {statusCode: statusCodes.CREATED, success: true, data: assessment };
+            await ConditionService.createConditionsOfAssesment(assessment.id,conditions);
+            await SymptomService.createSymptomsOfAssesment(assessment.id,symptoms);     
+            const assessmentObject = {assessment, conditions, symptoms }
+            return {statusCode: statusCodes.CREATED, success: true, data: assessmentObject };
         }
         catch(err) {
             return {statusCode: statusCodes.BAD_REQUEST, success: false, data: err};

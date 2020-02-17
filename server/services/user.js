@@ -34,25 +34,37 @@ const createUser = async (user) => {
 const listUsers = async () => {
     try{
         const users = await UserModel.findAll();
-        return { success:true, data: users };
+        return { statusCode:statusCodes.OK,success:true, data: users };
     }
     catch(err) {
-        return { success: false, data: err };
+        return { statusCode:statusCodes.BAD_REQUEST, success: false, data: err };
     }
 }
 
 const getUserById = async (userId) => {
     try {
-        const data = await UserModel.findByPk(userId);
+        let data = await UserModel.findByPk(userId);
         if(data) {
-            return {success:true, data: data};
+            if(data.userType == 1) {
+                console.log('id', data.id);
+                data = await PatientService.getPatientByUserId(data.id);    
+                return {statusCode: data.statusCode, success:data.success, data: data.data};
+           }
+           else if(data.userType == 2) {
+                data = await DoctorService.getDoctorByUserId(data.id);
+                return {statusCode: data.statusCode, success:data.success, data: data.data};
+           }
+           else {
+               return {statusCode: statusCodes.UNAUTHORIZED, success:false, data: "User Type is not valid."};
+           }
         }
         else {
-            return {success:false, data: "Not FOund"}
+            return {statusCode: statusCodes.NOT_FOUND, success:false, data: "Not FOund"}
         }
     }
     catch(err) {
-        return { success: false, data: err};
+        console.log(err)
+        return { statusCode: statusCodes.BAD_REQUEST, success: false, data: err};
     }
 }
 
@@ -63,19 +75,18 @@ const updateUser = async (userId,userUpdate) => {
             try {
                 console.log(userUpdate);
                 const updatedUser = await user.update( userUpdate,{fields: Object.keys(userUpdate) });
-                return { success: true, data: updatedUser };
+                return { statusCode:statusCodes.OK,  success: true, data: updatedUser };
             }
             catch (err) {
-                return { success: false, data: err};   
+                return { statusCode:statusCodes.BAD_REQUEST,  success: false, data: err};   
             }
-          
         }
         else {
-            return { success: true, data: "User Not Found"};
+            return { statusCode:statusCodes.NOT_FOUND, success: true, data: "User Not Found"};
         }
     }
     catch (err) {
-        return { success: false, data: err};
+        return { statusCode:statusCodes.BAD_REQUEST, success: false, data: err};
     }
 }
 
@@ -84,14 +95,14 @@ const destroyUser = async (userId) => {
       const user = await UserModel.findByPk(userId);
       if(user) {
         await user.destroy();
-        return {success :true, data: "Resource Deleted"};
+        return {statusCode:statusCodes.OK, success :true, data: "Resource Deleted"};
       }
       else {
-          return {success: false, data: "User Not Found"};
+          return {statusCode:statusCodes.NOT_FOUND, success: false, data: "User Not Found"};
       }
     } 
     catch (err) {
-      return { success: false, data: err };
+      return { statusCode:statusCodes.BAD_REQUEST, success: false, data: err };
     }
 }
 
@@ -107,10 +118,7 @@ const loginUser = async (email,password) => {
             } 
             else {   
                 if(data.userType == 1) {
-                    console.log(data.id);
-                    console.log("Patient");
                      data = await PatientService.getPatientByUserId(data.id);
-                    //  console.log(data.data)
                      return {statusCode: data.statusCode, success:data.success, data: data.data};
                 }
                 else if(data.userType == 2) {

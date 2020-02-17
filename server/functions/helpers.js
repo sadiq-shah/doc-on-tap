@@ -12,7 +12,7 @@ const passwordValidity =  async (passwordEntered, validPassword) => {
 }
 
 const generateToken = (user) => {
-    return jwt.sign({ id:user.id, role_id: user.role_id }, 'jwtPrivateKey')
+    return jwt.sign({ id:user.id }, 'jwtPrivateKey')
 }
 
 module.exports = {
