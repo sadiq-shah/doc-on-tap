@@ -123,6 +123,9 @@ Router.get("/:id/assessment", PatientController.assessmentlist);
 *                           properties:
 *                              name:
 *                                   type: string                   
+*                              reported:
+*                                   type: boolean
+*                                   default: true
 *         required:
 *           - conditions
 *           - symptoms

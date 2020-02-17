@@ -8,6 +8,10 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    reported: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
     }
   }, {});
   Symptom.associate = function(models) {
