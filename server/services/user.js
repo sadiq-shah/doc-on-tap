@@ -3,6 +3,7 @@ const statusCodes = require("./../constants/statusCodes");
 const { passwordValidity, hashPassword } = require("../functions/helpers");
 const PatientService = require('./patient');
 const DoctorService = require('./doctor');
+
 const createUser = async (user) => {
     try {
         user.password = await hashPassword(user.password);
@@ -11,6 +12,14 @@ const createUser = async (user) => {
         return {statusCode: statusCodes.BAD_REQUEST, success: false, data: err};
 }
     try {
+        // Checking If User Already Exist
+        let isUser = await UserModel.findOne({
+            where: {email: user.email}
+        });    
+        if(isUser) {
+            return {statusCode: statusCodes.NOT_FOUND, success: false, data: "Given Email Address Already Exists."};
+        }
+        //Creating New User
         const newUser = await UserModel.create({
             ...user
         });

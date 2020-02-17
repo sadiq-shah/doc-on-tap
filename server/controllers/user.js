@@ -11,7 +11,9 @@ const create = async (req,res) => {
     }
     try {
         const { statusCode, success, data } =  await UserService.createUser(req.body);
-        return res.status(statusCode).json({success, data});
+        const token = generateToken(data);
+        console.log(token);
+        return res.header('x-auth-token', token).status(statusCode).json({success, data});
     }
     catch(err) {
         return res.status(500).json({success: false, err: err });
@@ -78,7 +80,6 @@ const login = async (req,res) => {
         return res.header('x-auth-token', token).status(statusCode).json({ success, data} );    
     }
     catch(err) {
-        console.log(err);
         return res.status(500).json({success: false, err:err });
     }
 }
