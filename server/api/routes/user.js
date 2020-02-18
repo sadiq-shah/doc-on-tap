@@ -128,27 +128,24 @@ const { checkIfUserIsDoctor, ifDoctorExist } = require("./../middlewares/doctor"
 Router.post("/signup", UserController.create);
 /**
 * @swagger
-* /api/v1/user:
+* /api/v1/user/auth:
 *   get:
 *     tags:
 *       - User
-*     name: List All Users
-*     summary: Return All Users
+*     name: Auth and get user
+*     summary: Pass Auth token in request header and get User All Details.
 *     consumes:
 *       - application/json
 *     produces:
 *       - application/json
 *     responses:
 *       200:
-*         description: An Array Of All Users Successfully.
-*         schema:
-*           $ref: '#/definitions/User'
-*       401:
-*         description: Bad username, not found in db
+*         description: Get User From Auth
 *       403:
-*         description: Required Parameters Needed
+*         description: Invalid Token
+*       500:
+*         description: Bad Request
 */
-
 Router.get("/auth", UserController.getUserFromAuth);
 
 Router.get("/", UserController.list);

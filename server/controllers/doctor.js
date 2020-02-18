@@ -14,6 +14,7 @@ const create = async (req,res) => {
         return res.status(statusCode).json({ success, data });
     }
     catch(err) {
+        console.log("Controlers")
         return res.status(500).json({success: false, err: err });
     } 
 }

@@ -3,8 +3,12 @@ const UserService = require("../../services").UserService;
 
 const checkIfUserIsDoctor = async (req,res,next) => {
     const userId = req.params.userId;
+    // console.log('User Id',userId);
+    // return;
     try {
-        const {_, data} = await UserService.getUserById(userId);
+        const {a,_, data} = await UserService.getUserById(userId);
+        // console.log(data);
+        // return;
         if(data && data.userType == 2) {
             next();
         }
@@ -13,14 +17,15 @@ const checkIfUserIsDoctor = async (req,res,next) => {
         }
     }
     catch (ex) {
+        console.log(ex);
         res.status(500).json({success: false, message: ex});
     }
 } 
 
 const ifDoctorExist = async (req,res,next) => {
-    console.log('User Id',userId);
+    console.log(`If Doctor Exist`);
     const userId = req.params.userId || req.body.doctorId;
-    
+    console.log(userId);
     try {
         const {_, s, data} = await DoctorService.getDoctorByUserId(userId);
         if(data && data.userId) {
@@ -31,6 +36,7 @@ const ifDoctorExist = async (req,res,next) => {
         }
     }
     catch (ex) {
+        console.log(ex);
         res.status(500).json({success: false, message: ex});
     }
 } 

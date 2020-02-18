@@ -43,8 +43,10 @@ const listUsers = async () => {
 
 const getUserById = async (userId) => {
     try {
+        
         let data = await UserModel.findByPk(userId);
-        // if(data) {
+        if(data) {
+            // console.log(data);
         //     if(data.userType == 1) {
         //         console.log('id', data.id);
         //         data = await PatientService.getPatientByUserId(data.id);    
@@ -52,19 +54,43 @@ const getUserById = async (userId) => {
         //    }
         //    else if(data.userType == 2) {
         //         data = await DoctorService.getDoctorByUserId(data.id);
-        //         return {statusCode: data.statusCode, success:data.success, data: data.data};
+                return {statusCode: statusCodes.OK, success:true, data: data};
         //    }
         //    else {
             //    return {statusCode: statusCodes.UNAUTHORIZED, success:false, data: "User Type is not valid."};
-               return {statusCode: statusCodes.OK, success:true, data: data};
         //    }
         // }
         // else {
         //     return {statusCode: statusCodes.NOT_FOUND, success:false, data: "Not FOund"}
-        // }
+        }
     }
     catch(err) {
         console.log(err)
+        return { statusCode: statusCodes.BAD_REQUEST, success: false, data: err};
+    }
+}
+
+const getUserObjectById = async (userId) => {
+    try {
+        let data = await UserModel.findByPk(userId);
+        if(data) {
+            if(data.userType == 1) {
+                data = await PatientService.getPatientByUserId(data.id);    
+                return {statusCode: data.statusCode, success:data.success, data: data.data};
+           }
+           else if(data.userType == 2) {
+                data = await DoctorService.getDoctorByUserId(data.id);
+                return {statusCode: data.statusCode, success:data.success, data: data.data};
+           }
+           else {
+               return {statusCode: statusCodes.UNAUTHORIZED, success:false, data: "User Type is not valid."};
+           }
+        }
+        else {
+            return {statusCode: statusCodes.NOT_FOUND, success:false, data: "Not FOund"}
+        }
+    }
+    catch(err) {
         return { statusCode: statusCodes.BAD_REQUEST, success: false, data: err};
     }
 }
@@ -146,5 +172,6 @@ module.exports = {
     getUserById,
     updateUser,
     destroyUser,
-    loginUser
+    loginUser,
+    getUserObjectById
 }

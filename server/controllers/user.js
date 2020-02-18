@@ -1,6 +1,6 @@
 const UserService = require("./../services").UserService;
 const UserValidation = require("./../validation").UserValidation;
-const {generateToken} = require("./../functions/helpers");
+const { generateToken } = require("./../functions/helpers");
 const jwt = require("jsonwebtoken");
 
 const create = async (req,res) => {
@@ -17,7 +17,8 @@ const create = async (req,res) => {
             return res.header('x-auth-token', token).status(statusCode).json({success, data});
         }
         else {
-            return res.status(statusCode).json({success, data});
+            console.log(err);
+            return res.status(500).json({success, data});
         }
         
     }
@@ -83,10 +84,9 @@ const login = async (req,res) => {
     try {
         const {statusCode, success, data} = await UserService.loginUser(email,password);
         const token =  generateToken(data.user);
-        return res.header('x-auth-token', token).status(statusCode).json({ success, data, token} );    
+        return res.header('x-auth-token', token).header('x-auth-token', token).status(statusCode).json({ success, data} );    
     }
     catch(err) {
-        // console.log(err);
         return res.status(500).json({success: false, err:err });
     }
 }
@@ -100,7 +100,8 @@ const getUserFromAuth = async (req,res) => {
     });
     const user = req.userId;
     try {
-        const {statusCode, success, data} = await UserService.getUserById(user);
+        console.log(user);
+        const {statusCode, success, data} = await UserService.getUserObjectById(user);
         const token =  generateToken(data.user);
         return res.header('x-auth-token', token).status(statusCode).json({ success, data} );  
     }
