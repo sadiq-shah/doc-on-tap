@@ -19,8 +19,8 @@ const create = async (req,res) => {
 
 const list = async(req,res) => {
     try {
-        const { success, data } = await DiseaseService.listDiseases();
-        return res.json({ success,data });
+        const { statusCode, success, data } = await DiseaseService.listDiseases();
+        return res.status(statusCode).json({ success,data });
     }
     catch(err) {
         return res.status(500).json({success: false, err:err });
@@ -67,10 +67,22 @@ const destroy = async (req, res) => {
     }
 }
 
+const getByName = async (req,res) => {
+    const disease = req.body.name.toLowerCase();;
+    try {
+        const {statusCode, success, data} = await DiseaseService.getDiseaseByName(disease);
+        return res.status(statusCode).json({ success, data} );    
+    }
+    catch(err) {
+        return res.status(500).json({success: false, err:err });
+    }
+}
+
 module.exports = {
-create,
-retrieve,
-list,
-destroy,
-update
+    create,
+    retrieve,
+    list,
+    destroy,
+    update,
+    getByName
 }

@@ -11,19 +11,8 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
-      type: {
+      url: {
         type: Sequelize.STRING
-      },
-      description: {
-        type: Sequelize.TEXT
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
       }
     });
   },

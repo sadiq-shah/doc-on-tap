@@ -15,10 +15,10 @@ const createDisease = async (disease) => {
 const listDiseases = async () => {   
     try {
         const diseases = await DiseaseModel.findAll();
-        return { success:true, data: diseases };
+        return { statusCode: 200, success:true, data: diseases };
     }
     catch(err) {
-        return { success: false, data: err };
+        return { statusCode: 500, success: false, data: err };
     }
 }
 
@@ -74,10 +74,28 @@ const destroyDisease = async (diseaseId) => {
     }
 }
 
+const getDiseaseByName = async (diseaseName) => {
+    try {
+        const disease = await DiseaseModel.findOne({
+            where: {name: diseaseName}
+        });
+        if(disease) {
+            return {statusCode: 200, success:true, data: disease};
+        }
+        else {
+            return {statusCode: 404, success:false, data: "Disease Not Found."}
+        }
+    }
+    catch(err) {
+        return { statusCode: 500, success: false, data: err};
+    }
+}
+
 module.exports = {
     createDisease,
     listDiseases,
     getDiseaseById,
     updateDisease,
-    destroyDisease
+    destroyDisease,
+    getDiseaseByName
 }

@@ -5,15 +5,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    type: {
+    url: {
       type: DataTypes.STRING,
       allowNull:false
-    },
-    description: {
-      type: DataTypes.TEXT,
-      allowNull: false
     }
-  }, {});
+  }, {timestamps: false});
   Disease.associate = function(models) {
     // associations can be defined here
   };
