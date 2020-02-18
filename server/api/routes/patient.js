@@ -2,6 +2,8 @@ const Router = require("express").Router();
 const PatientController = require('./../../controllers/').PatientController;
 const AssessmentController = require('./../../controllers').AssessmentController;
 const { ifPatientDoesExist } = require("./../middlewares/patient");
+const { ifDoctorExist } = require("./../middlewares/doctor");
+
 const AppointmentController = require("./../../controllers").AppointmentController;
 const { auth } = require('./../middlewares/auth');
 
@@ -177,9 +179,7 @@ Router.get("/:id/assessment", PatientController.assessmentlist);
 *             err:
 *               type: object
 */
-Router.post("/:patientId/assessment", ifPatientDoesExist, AssessmentController.create);
-
-
+Router.post("/:patientId/assessment", ifPatientDoesExist, ifDoctorExist, AssessmentController.create);
 
 /**
 * @swagger

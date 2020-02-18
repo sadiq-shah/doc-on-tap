@@ -18,7 +18,9 @@ const checkIfUserIsDoctor = async (req,res,next) => {
 } 
 
 const ifDoctorExist = async (req,res,next) => {
-    const userId = req.params.userId;
+    console.log('User Id',userId);
+    const userId = req.params.userId || req.body.doctorId;
+    
     try {
         const {_, s, data} = await DoctorService.getDoctorByUserId(userId);
         if(data && data.userId) {

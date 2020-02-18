@@ -83,7 +83,7 @@ const login = async (req,res) => {
     try {
         const {statusCode, success, data} = await UserService.loginUser(email,password);
         const token =  generateToken(data.user);
-        return res.header('x-auth-token', token).status(statusCode).json({ success, data} );    
+        return res.header('x-auth-token', token).status(statusCode).json({ success, data, token} );    
     }
     catch(err) {
         // console.log(err);
