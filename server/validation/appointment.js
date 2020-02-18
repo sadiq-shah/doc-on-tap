@@ -5,7 +5,7 @@ module.exports = (appointment, update) => {
       patientId: Joi.number().required(),
       doctorId: Joi.number().required(),
       assessmentId: Joi.number().required(),
-      time: Joi.date().required(),
+      time: Joi.string().required(),
       status: Joi.string().required()
     });
 
