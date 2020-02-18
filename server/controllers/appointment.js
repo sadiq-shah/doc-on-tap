@@ -71,7 +71,7 @@ const destroy = async (req, res) => {
 const listPatientAppointments = async (req,res) => {
     const patientId = req.params.patientId;
     try {
-        const {statusCode, success, data} = await AppointmentService.getDoctorAppointments(patientId);
+        const {statusCode, success, data} = await AppointmentService.getPatientAppointments(patientId);
         return res.status(statusCode).json({ success, data} );    
     }
     catch(err) {

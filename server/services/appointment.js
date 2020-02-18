@@ -113,6 +113,7 @@ const getPatientAppointments = async (patientId) => {
                          model: SymptomModel,
                          as: 'symptoms'
                      }
+                     
                  ] 
                }
              ],
