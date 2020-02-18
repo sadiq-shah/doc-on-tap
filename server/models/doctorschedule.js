@@ -8,10 +8,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
     },
     from: {
-      type: DataTypes.DATE
+      type: DataTypes.STRING
     },
     to: {
-      type: DataTypes.DATE
+      type: DataTypes.STRING
     }
   }, {});
   DoctorSchedule.associate = function(models) {

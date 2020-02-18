@@ -21,10 +21,10 @@ module.exports = {
         type: Sequelize.STRING
       },
       from: {
-        type: Sequelize.DATE
+        type: Sequelize.STRING
       },
       to: {
-        type: Sequelize.DATE
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
