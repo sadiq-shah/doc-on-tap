@@ -8,6 +8,39 @@ const AppointmentController = require("./../../controllers").AppointmentControll
 const { auth } = require('./../middlewares/auth');
 
 Router.get("/", auth ,PatientController.list);
+
+/**
+* @swagger
+* /api/v1/patient/:patientId:
+*   get:
+*     tags:
+*       - Patients
+*     name: Get Patient Data
+*     summary: Returns Patient Data.
+*     produces:
+*       - application/json
+*     responses:
+*       200:
+*         description: Returned Patient Data successfully.
+*         schema:
+*           type: object
+*           properties: 
+*             success:
+*               type: boolean
+*               default: true
+*             data:
+*               type: object
+*       500:
+*         description: Bad Request, Success in response will be false
+*         schema:
+*           type: object
+*           properties: 
+*             success:
+*               type: boolean
+*               default: false
+*             err:
+*               type: object
+*/
 Router.get("/:id", PatientController.retrieve);
 Router.put("/:id", PatientController.update);
 Router.delete("/:id", PatientController.destroy);

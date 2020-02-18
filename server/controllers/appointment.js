@@ -49,8 +49,8 @@ const update = async (req, res) => {
     const appointment = req.body;
     const appointmentId = req.params.id;
     try {
-        const { success, data } = await AppointmentService.updateAppointment(appointmentId,appointment);
-        return res.json( {success, data } );
+        const { statusCode, success, data } = await AppointmentService.updateAppointment(appointmentId,appointment);
+        return res.status(statusCode).json( {success, data } );
     }
     catch(err) {
         return res.status(500).json({success: false, err:err });
@@ -92,6 +92,24 @@ const listDoctorAppointments = async (req,res) => {
     }
 }
 
+// const updateStatusOfAppointment = async (req, res) => {
+//     const { err } = AppointmentValidation(req.body, true);
+//     if(err) {
+//         return res
+//         .status(500)
+//         .json({ success: false, err: err.details[0].message });
+//     }
+//     const status = req.body.status;
+//     const appointmentId = req.params.id;
+//     try {
+//         const { success, data } = await AppointmentService.updateAppointment(appointmentId,appointment);
+//         return res.json( {success, data } );
+//     }
+//     catch(err) {
+//         return res.status(500).json({success: false, err:err });
+//     }
+// }
+
 module.exports = {
     create,
     retrieve,
@@ -99,5 +117,6 @@ module.exports = {
     destroy,
     update,
     listPatientAppointments,
-    listDoctorAppointments
+    listDoctorAppointments,
+    // updateStatusOfAppointment
 }

@@ -8,7 +8,6 @@ const createDoctor = async (doctor) => {
         const newDoctor = await DoctorModel.create({
             ...doctor
         });
-        console.log("Created");
         return { statusCode: statusCodes.CREATED, success: true, data: newDoctor };
     }   
     catch (err) {
@@ -64,7 +63,10 @@ const listDoctorsByLocation = async (location) => {
 
 const getDoctorById = async (doctorId) => {
     try {
-        const doctor = await DoctorModel.findByPk(doctorId,{ include:
+        console.log("Get Doctor By Id");
+        const doctor = await DoctorModel.findOne({ 
+            where: {id: doctorId},
+            include:
             [
                 { model: UserModel, as:"user",attributes: ['id','name','email','dob']},
                 { 
@@ -74,8 +76,9 @@ const getDoctorById = async (doctorId) => {
                 }
             ],
             attributes: ['id','userId','fee','hospital','qualification','specialization','rating','location']
+             
         });
-
+        
         if(doctor) {
             return {statusCode: statusCodes.OK, success:true, data: doctor};
         }

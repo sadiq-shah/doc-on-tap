@@ -32,19 +32,19 @@ module.exports = (sequelize, DataTypes) => {
   Patient.associate = function(models) {
     
     Patient.belongsTo(models.User, {
-      foriegnKey: 'userId',
+      foreignKey: 'userId',
       as: 'user',
       // onDelete: 'CASCADE'
     });
 
     Patient.hasMany(models.Appointment, {
-      foriegnKey: 'patientId',
+      foreignKey: 'patientId',
       as: 'appointments',
       sourceKey: 'id'
     });
 
     Patient.hasMany(models.Review, {
-      foriegnKey: 'patientId',
+      foreignKey: 'patientId',
       as: 'reviews'
     });
 

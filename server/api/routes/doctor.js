@@ -294,4 +294,6 @@ Router.get("/:doctorId/appointment", AppointmentController.listDoctorAppointment
 */
 Router.get("/location/:location", DoctorController.getDoctorsByLocation);
 
+// Router.post("/:doctorId/appointment/:appointmentId/status", AppointmentController.updateStatusOfAppointment);
+
 module.exports = Router

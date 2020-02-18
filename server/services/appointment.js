@@ -49,22 +49,24 @@ const getAppointmentById = async (appointmentId) => {
 
 const updateAppointment = async (appointmentId,appointmentUpdate) => {
     try {
+        console.log(appointmentId);
         const appointment = await AppointmentModel.findByPk(appointmentId);
         if(appointment) {
             try {
                 const updatedAppointment = await appointment.update( appointmentUpdate,{fields: Object.keys(appointmentUpdate) });
-                return { success: true, data: updatedAppointment };
+                return {statusCode: statusCodes.OK, success: true, data: updatedAppointment };
             }
             catch (err) {
-                return { success: false, data: err};   
+                return { statusCode: statusCodes.BAD_REQUEST, success: false, data: err};   
             }
           
         }
         else {
-            return { success: true, data: "Appointment Not Found"};
+            return { statusCode: statusCodes.NOT_FOUND, success: false, data: "Appointment Not Found"};
         }
     }
     catch (err) {
+        console.log(err);
         return { success: false, data: err};
     }
 }

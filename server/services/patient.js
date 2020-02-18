@@ -34,7 +34,7 @@ const getPatientById = async (patientId) => {
             return {statusCode: statusCodes.OK, success:true, data: patient};
         }
         else {
-            return {statusCode: statusCodes.NOT_FOUND, success:true, data: "Not FOund"}
+            return {statusCode: statusCodes.NOT_FOUND, success:false, data: "Not FOund"}
         }
     }
     catch(err) {
