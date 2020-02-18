@@ -8,9 +8,11 @@ const createDoctor = async (doctor) => {
         const newDoctor = await DoctorModel.create({
             ...doctor
         });
+        console.log("Created");
         return { statusCode: statusCodes.CREATED, success: true, data: newDoctor };
     }   
     catch (err) {
+        console.log(err);
         return { statusCode: statusCodes.BAD_REQUEST, success: false, data: err };
     }
 }
@@ -26,7 +28,7 @@ const listDoctors = async () => {
                     attributes: ['from','to','day']
                 }
             ],
-            attributes: ['id','userId','fee','hospital','qualification','specialization','rating']
+            attributes: ['id','userId','fee','hospital','qualification','specialization','rating','location']
              
         });
         return { statusCode: statusCodes.OK, success:true, data: doctors };
@@ -36,6 +38,29 @@ const listDoctors = async () => {
     }
 }
 
+const listDoctorsByLocation = async (location) => { 
+    console.log(location);  
+    try{
+        const doctors = await DoctorModel.findAll({ 
+            where: {location: location},
+            include:
+            [
+                { model: UserModel, as:"user",attributes: ['id','name','email','dob']},
+                { 
+                    model: DoctorScheduleModel, 
+                    as: "doctorSchedules",
+                    attributes: ['from','to','day']
+                }
+            ],
+            attributes: ['id','userId','fee','hospital','qualification','specialization','rating','location']             
+        });
+        return { statusCode: statusCodes.OK, success:true, data: doctors };
+    }
+    catch(err) {
+        console.log(err);
+        return { statusCode: statusCodes.BAD_REQUEST, success: false, data: err };
+    }
+}
 
 const getDoctorById = async (doctorId) => {
     try {
@@ -48,7 +73,7 @@ const getDoctorById = async (doctorId) => {
                     attributes: ['from','to','day']
                 }
             ],
-            attributes: ['id','userId','fee','hospital','qualification','specialization','rating']
+            attributes: ['id','userId','fee','hospital','qualification','specialization','rating','location']
         });
 
         if(doctor) {
@@ -129,5 +154,6 @@ module.exports = {
     getDoctorById,
     updateDoctor,
     destroyDoctor,
-    getDoctorByUserId
+    getDoctorByUserId,
+    listDoctorsByLocation
 }

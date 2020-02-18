@@ -228,4 +228,70 @@ Router.delete("/:id", DoctorController.destroy);
 */
 Router.get("/:doctorId/appointment", AppointmentController.listDoctorAppointments);
 
+/**
+* @swagger
+* /api/v1/doctor/location/:location:
+*   get:
+*     tags:
+*       - Doctors
+*     name: List All Doctors Of Given Location
+*     summary: Return All Dotors Data Of Given Location
+*     consumes:
+*       - application/json
+*     produces:
+*       - application/json
+*     responses:
+*       200:
+*         description: An Array Of All Doctors Successfully.It will also return doctorSchedule of each doctor. Make a request to see it properly.
+*         schema:
+*           type: object
+*           properties:
+*               success:
+*                   type: boolean
+*                   default: false
+*               data:
+*                   type: array
+*                   items:
+*                       type: object
+*                       properties:
+*                           id: 
+*                               type: number
+*                           userId:
+*                               type: number
+*                           fee:
+*                               type: number
+*                           hospital:
+*                               type: string
+*                           qualification:
+*                               type: string
+*                           specialization:
+*                               type: string
+*                           rating:
+*                               type: number
+*                           user:
+*                               type: object
+*                               properties:
+*                                   id:
+*                                       type: number
+*                                   name:
+*                                       type: string
+*                                   email:
+*                                       type: string
+*                                       format: email
+*                                   dob:
+*                                       type: string
+*                                       format: date                                                                        
+*       500:
+*         description: Bad Request, Success in response will be false
+*         schema:
+*           type: object
+*           properties: 
+*             success:
+*               type: boolean
+*               default: false
+*             err:
+*               type: object
+*/
+Router.get("/location/:location", DoctorController.getDoctorsByLocation);
+
 module.exports = Router

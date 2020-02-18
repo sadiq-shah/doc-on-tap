@@ -142,9 +142,9 @@ Router.post("/signup", UserController.create);
 *       200:
 *         description: Get User From Auth
 *       403:
-*         description: Invalid Token
+*         description: Invalid Token.
 *       500:
-*         description: Bad Request
+*         description: Bad Request.
 */
 Router.get("/auth", UserController.getUserFromAuth);
 
@@ -360,6 +360,8 @@ Router.get("/", UserController.list);
 *               type: string
 *             specialization:
 *               type: string
+*             location:
+*               type:string
 *         required:
 *           - fee
 *           - hospital

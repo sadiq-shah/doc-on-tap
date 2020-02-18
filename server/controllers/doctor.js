@@ -14,7 +14,6 @@ const create = async (req,res) => {
         return res.status(statusCode).json({ success, data });
     }
     catch(err) {
-        console.log("Controlers")
         return res.status(500).json({success: false, err: err });
     } 
 }
@@ -69,10 +68,21 @@ const destroy = async (req, res) => {
     }
 }
 
+const getDoctorsByLocation = async(req,res) => {
+    try {
+        const location = req.body.location;
+        const { statusCode, success, data } = await DoctorService.listDoctorsByLocation(location);
+        return res.status(statusCode).json({ success,data });
+    }
+    catch(err) {
+        return res.status(500).json({success: false, err:err });
+    } 
+} 
 module.exports = {
     create,
     retrieve,
     list,
     destroy,
-    update
+    update,
+    getDoctorsByLocation
 }
