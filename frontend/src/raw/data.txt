@@ -1,0 +1,132 @@
+    // diagnosis: null || {
+    //   conditions: [
+    //     {
+    //       id: 'c_65',
+    //       name: 'Gall bladder and bile duct cancer',
+    //       common_name: 'Gall bladder and bile duct cancer',
+    //       probability: 0.9928
+    //     },
+    //     {
+    //       id: 'c_73',
+    //       name: 'Acute pancreatitis',
+    //       common_name: 'Acute pancreatitis',
+    //       probability: 0.6675
+    //     },
+    //     {
+    //       id: 'c_426',
+    //       name: 'Fasciolosis',
+    //       common_name: 'Fascioliasis',
+    //       probability: 0.573
+    //     },
+    //     {
+    //       id: 'c_256',
+    //       name: 'Leptospirosis',
+    //       common_name: 'Leptospirosis',
+    //       probability: 0.5103
+    //     },
+    //     {
+    //       id: 'c_477',
+    //       name: 'Hepatitis A',
+    //       common_name: 'Hepatitis A',
+    //       probability: 0.4288
+    //     },
+    //     {
+    //       id: 'c_60',
+    //       name: 'Hemolytic anemia',
+    //       common_name: 'Hemolytic anemia',
+    //       probability: 0.3658
+    //     }
+    //   ]
+    // }
+
+    // Store
+          s_98: {
+        reported: true,
+        initial: true
+      },
+      p_7: {
+        reported: true
+      },
+      p_28: {
+        reported: false
+      },
+      p_10: {
+        reported: true
+      },
+      p_9: {
+        reported: true
+      },
+      p_147: {
+        reported: false
+      },
+      p_8: {
+        reported: false
+      },
+      s_81: {
+        reported: true,
+        related: true
+      },
+      s_21: {
+        reported: true,
+        related: true
+      },
+      p_15: {
+        reported: false
+      },
+      p_20: {
+        reported: false
+      },
+      p_21: {
+        reported: false
+      },
+      p_16: {
+        reported: false
+      },
+      p_17: {
+        reported: false
+      },
+      p_18: {
+        reported: false
+      },
+      p_14: {
+        reported: false
+      },
+      p_19: {
+        reported: true
+      },
+      p_22: {
+        reported: false
+      },
+      p_13: {
+        reported: false
+      },
+      s_99: {
+        reported: true
+      },
+      s_1193: {
+        reported: true
+      },
+      s_1933: {
+        reported: false
+      },
+      s_1912: {
+        reported: true
+      },
+      p_138: {
+        reported: true
+      },
+      s_1905: {
+        reported: false
+      },
+      s_185: {
+        reported: true
+      },
+      s_156: {
+        reported: true
+      },
+      s_305: {
+        reported: false
+      },
+      s_8: {
+        reported: false
+      }

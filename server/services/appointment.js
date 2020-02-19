@@ -117,7 +117,7 @@ const getPatientAppointments = async (patientId) => {
                  ] 
                }
              ],
-             attributes: ['time', "status"]
+             attributes: ['id','time', "status"]
         });
         if(appointment) {
             return {statusCode: statusCodes.OK, success:true, data: appointment};
@@ -162,7 +162,7 @@ const getDoctorAppointments = async (patientId) => {
                  ] 
                }
              ],
-             attributes: ['time', "status"]
+             attributes: ['id','time', "status"]
         });
         if(appointment) {
             return {statusCode: statusCodes.OK,success:true, data: appointment};
