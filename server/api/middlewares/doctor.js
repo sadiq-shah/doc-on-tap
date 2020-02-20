@@ -23,7 +23,6 @@ const checkIfUserIsDoctor = async (req,res,next) => {
 } 
 
 const ifDoctorExist = async (req,res,next) => {
-    console.log(`If Doctor Exist`);
     const userId = req.params.userId || req.body.doctorId;
     console.log(userId);
     try {
@@ -36,7 +35,6 @@ const ifDoctorExist = async (req,res,next) => {
         }
     }
     catch (ex) {
-        console.log(ex);
         res.status(500).json({success: false, message: ex});
     }
 } 
